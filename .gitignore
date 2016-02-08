@@ -1,0 +1,5 @@
+*.pyc
+.*.sw*
+doc/build
+doc/.*
+.coverage
