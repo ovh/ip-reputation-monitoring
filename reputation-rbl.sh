@@ -62,12 +62,16 @@ function download {
         wget ${BLOCKLIST} -U "${USER_AGENT}" --output-document=blocklist > /dev/null
     done
 
-    ### SNDS (retry until it succeed...) ###
-    wget "${SNDS}" -U "${USER_AGENT}" --output-document=snds  > /dev/null
-    while [ $? -ne 0 ]
-    do
-        wget "${SNDS}" -U "${USER_AGENT}" --output-document=snds  > /dev/null
-    done
+    ### SNDS (retry until it succeed...) only if you have a SNDS key ###
+    if [[ -z "${SNDS}" ]]; then
+        wget "${SNDS}" -U "${USER_AGENT}" --output-document=snds > /dev/null
+        while [ $? -ne 0 ]
+        do
+            wget "${SNDS}" -U "${USER_AGENT}" --output-document=snds > /dev/null
+        done
+    else
+        echo "Please define your personal SNDS key in SNDS_KEY varenv to fetch live.com abuse report"
+    fi
 
 
     cd ${DAT_DIR}
@@ -76,9 +80,11 @@ function download {
 # Parse downloaded data
 function parse {
 
-    >&2 echo "### Parsing SNDS"
-    date 1>&2
-    ${REPUTATION_SCRIPT} --parse --snds "${OUTPUT_DIR}/snds"
+    if [[ -z "${SNDS}" ]]; then
+        >&2 echo "### Parsing SNDS"
+        date 1>&2
+        ${REPUTATION_SCRIPT} --parse --snds "${OUTPUT_DIR}/snds"
+    fi
     >&2 echo "###### Parsing CT"
     date 1>&2
     ${REPUTATION_SCRIPT} --parse --cleantalk "${OUTPUT_DIR}/cleantalk"
