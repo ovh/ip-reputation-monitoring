@@ -52,8 +52,6 @@ def get_reputation_details_for_source(addr, source):
         Those details consist in an array of events and for each event,
         the raw data that created this event. A timestamp can be passed
         using `start_date` parameter.
-
-        Notice: emails are b64 encoded to avoid any unwanted side effects.
     """
     try:
         start_date = _get_start_date()

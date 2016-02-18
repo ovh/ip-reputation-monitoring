@@ -23,6 +23,7 @@
 
 from mongo import mongo
 from parsing.registered import parsers, shortened_names
+from utils import utils
 
 
 def aggregate_reputation_per_source(addr, start_date):
@@ -77,7 +78,21 @@ def get_reputation_events_for_source(addr, source, start_date):
     with mongo.Mongo() as database:
         events = database.find_all_event_data_for_ip(addr, start_date, True)
 
-    return [event for event in events if event['source'] == source]
+    result = [event for event in events if event['source'] == source]
+
+    # Find the first data to determine whether data are b64 encoded or not.
+    is_encoded = False
+    for event in result:
+        if event['data']:
+            is_encoded = utils.is_base64_encoded(event['data'])
+            break
+
+    # If data are encoded, then decode all
+    if is_encoded:
+        for event in result:
+            event['data'] = event['data'].decode('base64') if event['data'] else event['data']
+
+    return result
 
 
 def _compute_score_by_source(events):

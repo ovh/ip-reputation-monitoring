@@ -27,8 +27,23 @@ class TestReputationServices(unittest.TestCase):
             enter.find_all_event_data_for_ip.assert_called_with('5.5.5.5', 3, True)
 
             self.assertEquals(2, len(result))
-
             self.assertEqual(['YYY', 'ZZZ'], sorted([r['filename'] for r in result]))
+
+    def test_reputation_events_for_source_b64(self):
+        with patch('mongo.mongo.Mongo') as mock:
+            instance = mock.return_value
+            enter = instance.__enter__.return_value
+            enter.find_all_event_data_for_ip.return_value = [
+                {'weight': 3, 'timestamp': 4, 'filename': 'ZZZ', 'source': 'SpamCop', 'data': 'AAA'},  # NOP SOURCE
+                {'weight': 7, 'timestamp': 5, 'filename': 'XXX', 'source': 'AOL', 'data': 'SGVsbG8gd29ybGQ='}
+            ]
+
+            result = reputation.get_reputation_events_for_source('5.5.5.5', 'AOL', 3)
+
+            enter.find_all_event_data_for_ip.assert_called_with('5.5.5.5', 3, True)
+
+            self.assertEquals(1, len(result))
+            self.assertEqual("Hello world", result[0]['data'])
 
     def test_aggregated_reputation(self):
         with patch('mongo.mongo.Mongo') as mock:
