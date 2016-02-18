@@ -32,7 +32,7 @@ def get_requirements():
 
 setup(
     name='ip-reputation-monitoring',
-    version='1.0.0',
+    version='1.1.0',
     description="A toolset allowing anyone to monitor given IPs reputation over the Internet.",
     url='https://www.ovh.com/',
     license='BSD',
