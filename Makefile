@@ -4,6 +4,7 @@ DEL=rm
 PYTHON=python
 PIP=pip
 COVERAGE=coverage
+COVERALLS=coveralls
 PYLINT=pylint
 SPHINX=sphinx-build
 
@@ -29,6 +30,13 @@ test:
 	$(COVERAGE) report \
 		|| \
 	$(PYTHON) -m unittest discover
+
+coveralls:
+	$(COVERAGE) erase && \
+	cd $(MODULE_DIR) && \
+	$(COVERAGE) > /dev/null 2>&1 && \
+	$(COVERAGE) run --source='.' -m unittest discover && \
+	$(COVERALLS)
 
 lint:
 	cd $(MODULE_DIR) && \

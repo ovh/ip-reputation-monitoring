@@ -1,5 +1,8 @@
 # ip-reputation-monitoring #
 
+[![Build Status](https://travis-ci.org/ovh/ip-reputation-monitoring.svg)](https://travis-ci.org/ovh/ip-reputation-monitoring)
+[![Coverage Status](https://coveralls.io/repos/github/ovh/ip-reputation-monitoring/badge.svg)](https://coveralls.io/github/ovh/ip-reputation-monitoring)
+
 ## Summary ##
 
 This tool aims to monitor the reputation of a network in order
