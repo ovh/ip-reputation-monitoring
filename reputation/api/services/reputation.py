@@ -71,6 +71,7 @@ def get_reputation_events_for_source(addr, source, start_date):
         a given ip and a given source.
 
         :param str addr: Ip the reputation must be computed with
+        :param str source: Source short name to get events of
         :param int start_date: Timestamp the events must be retrieved from
         :rtype: array
         :return: Array of events
@@ -78,7 +79,7 @@ def get_reputation_events_for_source(addr, source, start_date):
     with mongo.Mongo() as database:
         events = database.find_all_event_data_for_ip(addr, start_date, True)
 
-    result = [event for event in events if event['source'] == source]
+    result = [event for event in events if event['source'] == _map_source_from_shortname(source)]
 
     # Find the first data to determine whether data are b64 encoded or not.
     is_encoded = False
@@ -104,3 +105,19 @@ def _compute_score_by_source(events):
             result[event['source']] = event['weight']
 
     return result
+
+
+def _map_source_from_shortname(short_name):
+    """
+        Get source fullname from its shortname
+
+        :param str short_name: Short name of the source
+        :rtype: str
+        :return: Full name of this source or `short_name` if not found
+    """
+    for fullname in shortened_names:
+        if shortened_names[fullname] == short_name:
+            return fullname
+
+    # None found
+    return short_name

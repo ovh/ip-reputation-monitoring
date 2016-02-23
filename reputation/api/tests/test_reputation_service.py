@@ -22,7 +22,7 @@ class TestReputationServices(unittest.TestCase):
                 {'weight': 7, 'timestamp': 6, 'filename': 'XXX', 'source': 'AOL', 'data': 'CCC'}       # NOP SOURCE
             ]
 
-            result = reputation.get_reputation_events_for_source('5.5.5.5', 'SpamCop', 3)
+            result = reputation.get_reputation_events_for_source('5.5.5.5', shortened_names['SpamCop'], 3)
 
             enter.find_all_event_data_for_ip.assert_called_with('5.5.5.5', 3, True)
 
