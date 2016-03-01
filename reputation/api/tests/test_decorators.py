@@ -9,7 +9,7 @@ from api.decorators.json import as_json
 
 
 @as_json
-def test_func(to_return, code):
+def _my_test_func(to_return, code):
     return to_return, code
 
 
@@ -20,7 +20,7 @@ class TestDecorators(unittest.TestCase):
         method_input = {"a": 1, "b": 2}
         expected = json.dumps(method_input)
 
-        response = test_func(method_input, 200)
+        response = _my_test_func(method_input, 200)
 
         self.assertEquals(expected, response.data)
         self.assertEquals(200, response.status_code)
