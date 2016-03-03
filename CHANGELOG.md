@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.2 (2016-03-03)
+- [Feat] `AS_NUMBER` is not mandatory anymore. If not provided, CleanTalk won't
+be retrieved.
+- [Fix] SNDS reports are now properly retrieved.
+- [Fix] Spamhaus reports are now properly parsed.
+
 ## 1.1.1 (2016-03-01)
 - [Fix] API - Querying reputation source details returns an empty array. (#3)
 - [Fix] Unit tests issue with Nose. (#5)
