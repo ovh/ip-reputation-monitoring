@@ -51,9 +51,14 @@ function download {
     mv listed*txt sfs
 
     ### CLEAN TALK ###
-    wget ${CLEANTALK} -U "${USER_AGENT}" --output-document=cleantalk.html > /dev/null
-    cat ${OUTPUT_DIR}/cleantalk.html | ${REPUTATION_DIR}/tools/cleantalk/ct_formatter.py > cleantalk
-    rm -f ${OUTPUT_DIR}/cleantalk.html
+    if [[ -z "${AS_NUMBER}" ]]
+    then
+        wget ${CLEANTALK} -U "${USER_AGENT}" --output-document=cleantalk.html > /dev/null
+        cat ${OUTPUT_DIR}/cleantalk.html | ${REPUTATION_DIR}/tools/cleantalk/ct_formatter.py > cleantalk
+        rm -f ${OUTPUT_DIR}/cleantalk.html
+    else
+        >&2 echo "No AS_NUMBER varenv defined. Please define it to be able to fetch CleanTalk report."
+    fi
 
     ### BLOCK LIST DE (retry until it succeed...) ###
     wget ${BLOCKLIST} -U "${USER_AGENT}" --output-document=blocklist > /dev/null
@@ -88,9 +93,12 @@ function parse {
         ${REPUTATION_SCRIPT} --parse --snds "${OUTPUT_DIR}/snds"
     fi
 
-    >&2 echo "###### Parsing CT"
-    date 1>&2
-    ${REPUTATION_SCRIPT} --parse --cleantalk "${OUTPUT_DIR}/cleantalk"
+    if [[ -z "${AS_NUMBER}" ]]
+    then
+        >&2 echo "###### Parsing CT"
+        date 1>&2
+        ${REPUTATION_SCRIPT} --parse --cleantalk "${OUTPUT_DIR}/cleantalk"
+    fi
 
     >&2 echo "###### Parsing BL"
     date 1>&2
