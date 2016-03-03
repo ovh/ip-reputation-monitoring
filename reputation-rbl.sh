@@ -63,14 +63,15 @@ function download {
     done
 
     ### SNDS (retry until it succeed...) only if you have a SNDS key ###
-    if [[ -z "${SNDS}" ]]; then
+    if [[ -z "${SNDS_KEY}" ]]
+    then
         wget "${SNDS}" -U "${USER_AGENT}" --output-document=snds > /dev/null
         while [ $? -ne 0 ]
         do
             wget "${SNDS}" -U "${USER_AGENT}" --output-document=snds > /dev/null
         done
     else
-        echo "Please define your personal SNDS key in SNDS_KEY varenv to fetch live.com abuse report"
+        >&2 echo "Please define your personal SNDS key in SNDS_KEY varenv to fetch live.com abuse report"
     fi
 
 
@@ -80,14 +81,17 @@ function download {
 # Parse downloaded data
 function parse {
 
-    if [[ -z "${SNDS}" ]]; then
+    if [[ -z "${SNDS_KEY}" ]]
+    then
         >&2 echo "### Parsing SNDS"
         date 1>&2
         ${REPUTATION_SCRIPT} --parse --snds "${OUTPUT_DIR}/snds"
     fi
+
     >&2 echo "###### Parsing CT"
     date 1>&2
     ${REPUTATION_SCRIPT} --parse --cleantalk "${OUTPUT_DIR}/cleantalk"
+
     >&2 echo "###### Parsing BL"
     date 1>&2
     ${REPUTATION_SCRIPT} --parse --blocklist "${OUTPUT_DIR}/blocklist"
