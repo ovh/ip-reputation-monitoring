@@ -51,7 +51,7 @@ function download {
     mv listed*txt sfs
 
     ### CLEAN TALK ###
-    if [[ -z "${AS_NUMBER}" ]]
+    if [ ! -z "${AS_NUMBER}" ]
     then
         wget ${CLEANTALK} -U "${USER_AGENT}" --output-document=cleantalk.html > /dev/null
         cat ${OUTPUT_DIR}/cleantalk.html | ${REPUTATION_DIR}/tools/cleantalk/ct_formatter.py > cleantalk
@@ -68,7 +68,7 @@ function download {
     done
 
     ### SNDS (retry until it succeed...) only if you have a SNDS key ###
-    if [[ -z "${SNDS_KEY}" ]]
+    if [ ! -z "${SNDS_KEY}" ]
     then
         wget "${SNDS}" -U "${USER_AGENT}" --output-document=snds > /dev/null
         while [ $? -ne 0 ]
@@ -86,14 +86,14 @@ function download {
 # Parse downloaded data
 function parse {
 
-    if [[ -z "${SNDS_KEY}" ]]
+    if [ ! -z "${SNDS_KEY}" ]
     then
         >&2 echo "### Parsing SNDS"
         date 1>&2
         ${REPUTATION_SCRIPT} --parse --snds "${OUTPUT_DIR}/snds"
     fi
 
-    if [[ -z "${AS_NUMBER}" ]]
+    if [ ! -z "${AS_NUMBER}" ]
     then
         >&2 echo "###### Parsing CT"
         date 1>&2
