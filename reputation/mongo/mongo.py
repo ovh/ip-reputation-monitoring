@@ -392,10 +392,11 @@ class Mongo(object):
         query = {
             'sbl_number': {
                 '$nin': active_ids
-            }
+            },
+            'active': True
         }
 
-        self._spamhaus_collection.update(query, {'$set': {'active': False}})
+        res = self._spamhaus_collection.update(query, {'$set': {'active': False}}, multi=True)
 
     def find_spamhaus_entries(self, is_active=None):
         """
