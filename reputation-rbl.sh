@@ -80,7 +80,7 @@ function download {
     fi
 
 
-    cd ${DAT_DIR}
+    cd -
 }
 
 # Parse downloaded data
