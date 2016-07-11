@@ -26,6 +26,7 @@ from datetime import datetime
 import bs4
 from mongo import mongo
 from utils import utils
+from utils.logger import LOGGER
 
 SBL_STRING = 'SBL'
 TAG_TO_FIND = [
@@ -39,12 +40,17 @@ TAG_TO_FIND = [
 ]
 
 
+class UnrecognizedFormatException(Exception):
+    """ Custom exception raised if page format is not recognized as valid. """
+    pass
+
+
 def parse_html(content):
     """
         Parse Spamhaus HTML webpage to extract opened tickets.
 
         :param str content: Raw html sources
-        :raises Exception: If sources cannot be parsed
+        :raises UnrecognizedFormatException: If sources cannot be parsed
         :rtype: array
         :return: Array of dictionnaries containing all opened SBL.
     """
@@ -52,7 +58,7 @@ def parse_html(content):
     search = soup.find_all(*TAG_TO_FIND)
 
     if not search:
-        raise Exception("Cannot parse file.")
+        raise UnrecognizedFormatException("Cannot parse file.")
 
     result = []
     # Iterate through the found rows
@@ -96,6 +102,8 @@ def main():
     """
         Spamhaus blacklisted ip extracting tool entry point.
     """
+    LOGGER.info("Started...")
+
     # Read from stdin data
     buf = []
     for line in sys.stdin:
@@ -103,5 +111,11 @@ def main():
 
     content = '\n'.join(buf)
 
+    LOGGER.info("Parsing html (%d bytes)", len(content))
     documents = parse_html(content)
+    LOGGER.info("%d spamhaus entries found.", len(documents))
+
+    LOGGER.info("Updating database.")
     update_db(documents)
+
+    LOGGER.info("Done.")
