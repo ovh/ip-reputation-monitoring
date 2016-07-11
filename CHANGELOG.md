@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.3 (2016-07-11)
+- [Fix] Only the first spamhaus entry was updated and switched inactive.
+- [Fix] Empty variable in `reputation-rbl.sh`
+- [Fix] Add more logs in the Spamhaus monitor job.
+
 ## 1.1.2 (2016-03-03)
 - [Feat] `AS_NUMBER` is not mandatory anymore. If not provided, CleanTalk won't
 be retrieved.
