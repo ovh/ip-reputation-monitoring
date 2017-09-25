@@ -65,6 +65,12 @@ track network reputation.
 
 ## Installation ##
 
+### Important note ###
+
+As you can see, `ip-reputation-monitoring` supports various way to monitor your IPs.
+Feel free to use only one of them if you don't need everything.
+If you choose to do so, you won't need every single steps of the installation.
+
 ### Requirements ###
 
 To setup this little tool, you'll need:
@@ -86,7 +92,13 @@ When all of these requirements are met, you can install the tool:
  1. Download the zipfile or checkout the sources.
  2. Install python dependencies (apt-get install python-dev python-pip)
  3. Run `make install-deps`.
-
+ 4. Install MongoDB, add a DB and an user:
+    ```bash
+    sudo apt-get install mongodb
+    # launch mongo
+    use db_name
+    db.addUser('user', 'password')
+    ```
 
 ## Configuration ##
 
@@ -145,6 +157,35 @@ An example should help you to understand:
 
 At last, you need add your network addresses CIDRs (only one per line) in the
 `config/ips.list` file.
+
+## Running ##
+
+You can now insert theses entries in your favorite scheduler:
+
+ * Schedule `reputation-rbl.sh` to be run once a day.
+ * Schedule `spamhaus-bl.sh` to be run every hour.
+ * Schedule `reputation-fbl.sh` and `api.sh` to be run as a daemon.
+
+## API ##
+
+Once everything is running, you can start using the API. By default, it's
+listening to the port 5000.
+Here are the few available endpoints:
+
+ * `GET /reputation/(ip)`: Query reputation of an IP for each registered source.
+ * `GET /reputation/(ip)/details/(source)`: Query the detailed reputation of an
+ IP for a given source. You must use the shortened name of the source (or its
+   name if no shortened one has been provided). Default available source: AOL,
+   BLCK, CTALK SCOP SFS, SGS, SNDS.
+ * `GET /blacklist/(ip)`: Query DNS BL to know whether this IP is black listed
+ or not.
+ * `GET /spamhaus/active`: Query recorded Spamhaus active issues.
+ * `GET /spamhaus/resolved`: Query recorded Spamhaus resolved issues.
+
+
+Enjoy
+
+## Development
 
 ### Implementing its own RBL storage class ###
 
@@ -254,31 +295,3 @@ information about the DNS BL.
 
 Note that the shortened name is mandatory.
 
-
-## Running ##
-
-You can now insert theses entries in your favorite scheduler:
-
- * Schedule `reputation-rbl.sh` to be run once a day.
- * Schedule `spamhaus-bl.sh` to be run every hour.
- * Schedule `reputation-fbl.sh` and `api.sh` to be run as a daemon.
-
-## API ##
-
-Once everything is running, you can start using the API. By default, it's
-listening to the port 5000.
-Here are the few available endpoints:
-
- * `GET /reputation/(ip)`: Query reputation of an IP for each registered source.
- * `GET /reputation/(ip)/details/(source)`: Query the detailed reputation of an
- IP for a given source. You must use the shortened name of the source (or its
-   name if no shortened one has been provided). Default available source: AOL,
-   BLCK, CTALK SCOP SFS, SGS, SNDS.
- * `GET /blacklist/(ip)`: Query DNS BL to know whether this IP is black listed
- or not.
- * `GET /spamhaus/active`: Query recorded Spamhaus active issues.
- * `GET /spamhaus/resolved`: Query recorded Spamhaus resolved issues.
-
-
-
-Enjoy

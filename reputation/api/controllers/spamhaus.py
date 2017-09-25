@@ -48,7 +48,7 @@ def get_spamhaus_resolved_entries():
 def _retrieve_entries(is_active):
     """ Handy function which avoid code duplication """
     result = spamhaus_service.get_spamhaus_entries(is_active)
-    if not result:
+    if result is None:
         return {"error": "Error while fetching active spamhaus entries."}, 500
 
     return result, 200
