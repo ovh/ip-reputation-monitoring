@@ -24,7 +24,7 @@
 import sys
 from datetime import datetime
 import bs4
-from mongo import mongo
+from db import db
 from utils import utils
 from utils.logger import LOGGER
 
@@ -89,12 +89,12 @@ def parse_html(content):
 
 def update_db(documents):
     """
-        Update MongoDB by inserting new entries or updating existing ones (last seen
+        Update DB by inserting new entries or updating existing ones (last seen
         date, is it still active, etc.)
 
         :param tuple documents: A tuple of dict containing documents to upsert.
     """
-    with mongo.Mongo() as database:
+    with db.DB() as database:
         database.update_spamhaus_entries(documents)
 
 

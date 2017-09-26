@@ -23,15 +23,15 @@
 """
 
 from time import mktime
-from mongo import mongo
+from db import db
 
 
 def get_spamhaus_entries(is_active):
     """
-        Retrive from mongo DB spamhaus entry, active or not.
+        Retrive from DB spamhaus entry, active or not.
     """
-    # Query mongo
-    with mongo.Mongo() as database:
+    # Query DB
+    with db.DB() as database:
         documents = database.find_spamhaus_entries(is_active)
         if not documents:
             return None

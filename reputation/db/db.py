@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" Everything you need to dial with Mongo is here. """
+""" Everything you need to deal with the DB is here. """
 
 import hashlib
 import random
@@ -25,28 +25,26 @@ import time
 from datetime import datetime
 
 import pymongo
+import psycopg2
+from psycopg2 import extras
 from bson.code import Code
 from config import settings
 from utils import utils
 from utils.logger import LOGGER
 
-
-COLLECTION_PREFIX = "dev_" if settings.MONGODB['is_dev'] else ""
-
-IP_COLLECTION = COLLECTION_PREFIX + 'iptable'
-RAW_COLLECTION = COLLECTION_PREFIX + 'rawfiles'
-ARCHIVE_COLLECTION = COLLECTION_PREFIX + 'archives'
-TOPTEN_COLLECTION = COLLECTION_PREFIX + 'top10'
-SPAMHAUS_COLLECTION = COLLECTION_PREFIX + 'spamhaus'
+IP_COLLECTION = 'iptable'
+RAW_COLLECTION = 'rawfiles'
+ARCHIVE_COLLECTION = 'archives'
+TOPTEN_COLLECTION = 'top10'
 
 A_MONTH_AGO = utils.get_a_month_ago_date()
 
 TOP_LIMIT = 10
 
 
-class Mongo(object):
+class DB(object):
     """
-        This class is designed to provide everything needed to dial with mongo
+        This class is designed to provide everything needed to dial with db
         and to handle the needs of this app such as pushing new document or
         querying existing documents. In other words, this class is a typical
         data access object.
@@ -62,36 +60,49 @@ class Mongo(object):
         self._ip_cache = []
 
     def __enter__(self):
-        self.open()
+        self._open()
         return self
 
     def __exit__(self, type_exc, value, traceback):
-        self.close()
+        self._close()
         return False
 
-    def open(self):
+    def _open(self):
         """
-            Open connection to Mongo and retrieve collection objects.
+            Open connection to DB and retrieve collection objects.
         """
         self._client = pymongo.MongoClient(
             'mongodb://{}:{}@{}:{}/{}'.format(
-                settings.MONGODB['user'],
-                settings.MONGODB['password'],
-                settings.MONGODB['host'],
-                settings.MONGODB['port'],
-                settings.MONGODB['db']
+                settings.DB['user'],
+                settings.DB['password'],
+                settings.DB['host'],
+                settings.DB['port'],
+                settings.DB['db']
             ),
-            ssl=settings.MONGODB['secured']
+            ssl=settings.DB['secured']
         )
 
-        self._db = self._client[settings.MONGODB['db']]
+        ssl = 'require' if settings.SPAMHAUS_DB['secured'] else None
+        self._connection = psycopg2.connect(database=settings.SPAMHAUS_DB['db'],
+                                            user=settings.SPAMHAUS_DB['user'],
+                                            password=settings.SPAMHAUS_DB['password'],
+                                            host=settings.SPAMHAUS_DB['host'],
+                                            port=settings.SPAMHAUS_DB['port'],
+                                            sslmode=ssl)
+        self._cursor = self._connection.cursor(cursor_factory=extras.DictCursor)
+
+        self._db = self._client[settings.DB['db']]
         self._check_collections_exists()
 
         self._ip_collection = self._db[IP_COLLECTION]
 
         self._raw_collection = self._db[RAW_COLLECTION]
         self._archive_collection = self._db[ARCHIVE_COLLECTION]
-        self._spamhaus_collection = self._db[SPAMHAUS_COLLECTION]
+
+    def _close(self):
+        """ Close db's connection. """
+        self._client.close()
+        self._connection.close()
 
     def _check_collections_exists(self):
         """
@@ -107,9 +118,6 @@ class Mongo(object):
         if ARCHIVE_COLLECTION not in existing_collections:
             self._create_collection(ARCHIVE_COLLECTION)
 
-        if SPAMHAUS_COLLECTION not in existing_collections:
-            self._create_collection(SPAMHAUS_COLLECTION)
-
     def _create_collection(self, name):
         """
             Create a single collection.
@@ -119,16 +127,12 @@ class Mongo(object):
         LOGGER.info('Creating collection [%s]...', name)
         self._db.create_collection(name)
 
-    def close(self):
-        """ Close mongo's connection. """
-        self._client.close()
-
     def push_ip_document(self, input_dict):
         """
             Push a new document regarding an IP or update existing document to
             append new data.
 
-            :param dict input_dict: Expect a dictionnary having at least those
+            :param dict input_dict: Expect a dictionary having at least those
                 fields: [IP, filename, weight, source, timestamp, raw]
         """
         file_doc = self._build_file_document(input_dict)
@@ -171,24 +175,25 @@ class Mongo(object):
         """
             Build IP document to push into the collection.
 
-            :param dict input_dict: Expect a dictionnary having at least those fields:
+            :param dict input_dict: Expect a dictionary having at least those fields:
                 [IP, filename, weight, source, timestamp]
             :rtype: dict
-            :return: A dictionnary ready to be pushed in the mongo's collection.
+            :return: A dictionary ready to be pushed in the db's collection.
         """
         return {
             'ip': input_dict['ip'],
             'events': [self._build_event_document(input_dict)]
         }
 
-    def _build_event_document(self, input_dict):
+    @staticmethod
+    def _build_event_document(input_dict):
         """
             Build sub-document that describe an event about IP reputation. This sub-document contains
             every details needed to understand what goes wrong with this IP.
 
-            :param dict input_dict: Expect a dictionnary having at least those fields: [IP, filename, weight, source, timestamp]
+            :param dict input_dict: Expect a dictionary having at least those fields: [IP, filename, weight, source, timestamp]
             :rtype: dict
-            :return: A dictionnary ready to be attached as an event.
+            :return: A dictionary ready to be attached as an event.
         """
         return {
             'timestamp': input_dict['timestamp'],
@@ -197,15 +202,16 @@ class Mongo(object):
             'filename': input_dict['filename']
         }
 
-    def _build_file_document(self, input_dict):
+    @staticmethod
+    def _build_file_document(input_dict):
         """
             Build file document to be pushed. These documents archive files generating an event.
             This might be the single RBL line or an entire FBL e-mail.
 
-            :param dict input_dict: Expect a dictionnary having at least those fields:
+            :param dict input_dict: Expect a dictionary having at least those fields:
                 [IP, filename, weight, source, timestamp, raw]
             :rtype: dict
-            :return: A dictionnary ready to be pushed into the file collection
+            :return: A dictionary ready to be pushed into the file collection
         """
         current_ts = int(time.time() * 100)
         raw_hash = hashlib.sha256(input_dict['raw']).hexdigest()
@@ -247,9 +253,9 @@ class Mongo(object):
                     })
 
             result = self._archive_collection.insert(archives_bulk)
-            total_count = total_count + len(result)
+            total_count += len(result)
 
-        result = self._ip_collection.update(request, {
+        self._ip_collection.update(request, {
             '$pull': {
                 'events': {
                     'timestamp': {
@@ -369,34 +375,31 @@ class Mongo(object):
 
     def update_spamhaus_entries(self, documents):
         """
-            Update or insert an spamhaus entries into the spamhaus mongo collection. For each entry that
+            Update or insert an spamhaus entries into the spamhaus db collection. For each entry that
             is no longer active, update them to set their attr `active` to false.
 
-            :param tuple document: Tuple of dictionnary representing documents to upsert having at least
+            :param list documents: List of dictionaries representing documents to upsert having at least
             those mandatory keys: [sbl_number, cidr]
         """
         now = datetime.now()
 
         # First upsert still active entries
         for document in documents:
-            query = {
-                'sbl_number': document['sbl_number']
-            }
-
-            document['active'] = True
-            document['last_seen'] = now
-            self._spamhaus_collection.update(query, document, upsert=True)
+            self._cursor.execute("INSERT INTO spamhaus (sbl_number, cidr) "
+                                 "VALUES (%s, %s) "
+                                 "ON CONFLICT (sbl_number) DO UPDATE SET "
+                                 "   last_seen = %s "
+                                 "   active = TRUE",
+                                (document['sbl_number'], document['cidr'], now))
 
         # Now, set inactive all active documents that are not in documents
         active_ids = [doc['sbl_number'] for doc in documents]
-        query = {
-            'sbl_number': {
-                '$nin': active_ids
-            },
-            'active': True
-        }
+        self._cursor.execute("UPDATE spamhaus "
+                             "SET active = FALSE "
+                             "WHERE active = TRUE AND sbl_number NOT IN %s",
+                            (active_ids,))
 
-        res = self._spamhaus_collection.update(query, {'$set': {'active': False}}, multi=True)
+        self._connection.commit()
 
     def find_spamhaus_entries(self, is_active=None):
         """
@@ -406,8 +409,13 @@ class Mongo(object):
             :rtype: cursor
             :return: All desired spamhaus tickets sorted by first_seen date (asc)
         """
-        query = {}
-        if is_active is not None:
-            query['active'] = is_active
+        if is_active is None:
+            self._cursor.execute("SELECT * FROM spamhaus "
+                                 "ORDER BY first_seen ASC")
+            return self._cursor.fetchall()
 
-        return self._spamhaus_collection.find(query).sort('first_seen', 1)
+        self._cursor.execute("SELECT * FROM spamhaus "
+                             "WHERE active = %s "
+                             "ORDER BY first_seen ASC",
+                             (is_active,))
+        return self._cursor.fetchall()

@@ -17,11 +17,10 @@ class TestSpamhausService(unittest.TestCase):
         now = datetime.now()
         last_year = now.replace(year=now.year - 1)
 
-        with patch('mongo.mongo.Mongo') as mock:
+        with patch('db.db.DB') as mock:
             instance = mock.return_value
             enter = instance.__enter__.return_value
             enter.find_spamhaus_entries.return_value = [{
-                '_id': 'xxx',
                 'active': True,
                 'sbl_number': 1,
                 'first_seen': last_year,

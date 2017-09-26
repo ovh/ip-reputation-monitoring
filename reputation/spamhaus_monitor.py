@@ -20,7 +20,7 @@
 
 """
     Extract Spamhaus blacklisted IPs from their raw HTML page
-    and insert them in MongoDB.
+    and insert them in the DB.
 """
 from tools.spamhaus.spamhaus import main
 

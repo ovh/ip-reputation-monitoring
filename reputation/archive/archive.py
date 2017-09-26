@@ -37,11 +37,10 @@ def archive_rbl(filename, rbl_type):
         :rtype: bool
         :return: `True` if everything went ok, `False` otherwise
     """
-    prefix = rbl_type if not settings.MONGODB['is_dev'] else 'dev'
     suffix = time.strftime('%y%m%d-%H%M%S')
 
     object_name = '.'.join([
-        os.path.join(prefix, os.path.basename(filename)),
+        os.path.join(rbl_type, os.path.basename(filename)),
         suffix
     ])
 

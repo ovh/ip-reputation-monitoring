@@ -7,7 +7,7 @@ Every contribution are welcomed as long as few rules are followed.
 - In case of changes request, amend your commit to avoid multiple commits.
 - Run `make lint` before and after coding and take care not to lower the rating.
 - Write unit tests as much as possible so we can easily check your code.
-- Run unit tests using `make test` before commiting.
+- Run unit tests using `make test` before committing.
 
 # How to contribute
 
@@ -18,7 +18,7 @@ about it or please open one otherwise.
 - Test your code with unit tests and use `make test` to run them all.
 - Run `make lint` before and after coding and take care not to lower the rating.
 It worth mentioning you can freely improve the rating !
-- If we ask for a few changes, please amend your commit rather than creting new
+- If we ask for a few changes, please amend your commit rather than creating new
 commits.
 - Remember to be `Python 2.7` compliant.
 
@@ -43,5 +43,5 @@ this code in production since it might break it.
 `ip-reputation-monitoring` is licensed under GNU GPL v3 license. Anything
 contributed to `ip-reputation-monitoring` must be released under this license.
 
-When introducing a new file into the project, please make sur it has a
+When introducing a new file into the project, please make sure it has a
 copyright header making clear under which licenses it's being released.

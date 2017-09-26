@@ -23,7 +23,7 @@ import abc
 import time
 import traceback
 from datetime import datetime, timedelta
-from mongo import mongo
+from db import db
 from utils import utils
 from utils.logger import LOGGER
 
@@ -32,6 +32,7 @@ def _get_yesterday_date(now):
     delta = timedelta(days=1)
     yesterday = now - delta
     return int(time.mktime(yesterday.timetuple()))
+
 
 # Current date - 1 day
 YESTERDAY = _get_yesterday_date(datetime.now().date())
@@ -121,7 +122,7 @@ class Parser(object):
         """
             Run the parser.
         """
-        with mongo.Mongo() as database:
+        with db.DB() as database:
             current = self.next()
             while current:
                 try:

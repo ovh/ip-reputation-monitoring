@@ -79,7 +79,7 @@ To setup this little tool, you'll need:
  shell scripts)
  * Python 2.7+
  * Packages `python-dev` and `python-pip`
- * A MongoDB database (2.6.x or greater with TLS support*)
+ * A PostgreSQL database (2.6.x or greater with TLS support*)
  * A MX supporting IMAPS
  * A scheduler (cron, supervisor, ...)
 
@@ -95,7 +95,7 @@ When all of these requirements are met, you can install the tool:
  4. Install MongoDB, add a DB and an user:
     ```bash
     sudo apt-get install mongodb
-    # launch mongo
+    db
     use db_name
     db.addUser('user', 'password')
     ```
@@ -114,11 +114,11 @@ variables:
  * `FBL_PASSWORD`: password for previous username
  * `FBL_PARTNER_HEADER`: Name of the header defining e-mail source (see next
  section)
- * `MONGO_HOST`: ip or domain of your MongoDB host
- * `MONGO_PORT`: port to reach MongoDB
- * `MONGO_DB`: name of the MongoDB database
- * `MONGO_USER`: MongoDB user
- * `MONGO_PASSWORD`: MongoDB password
+ * `DB_HOST`: ip or domain of your PostgreSQL DB host
+ * `DB_PORT`: port to reach PostgreSQL
+ * `DB_NAME`: name of the PostgreSQL database
+ * `DB_USER`: PostgreSQL user
+ * `DB_PASSWORD`: PostgreSQL password
  * `REPORTING_TARGET`: e-mail address where a daily report about ips with the
  worst reputation must be sent
  * `REPORTING_SENDER`: `From:` header value of the dail report e-mail
@@ -290,7 +290,7 @@ mails. Here is the default format:
 ### Extending DNS BL support ###
 
 If you want to add new DNS BL that are not supported by default, you just have
-to edit the file `config/dnsbl.py` and add a new dictionnary providing needed
+to edit the file `config/dnsbl.py` and add a new dictionary providing needed
 information about the DNS BL.
 
 Note that the shortened name is mandatory.

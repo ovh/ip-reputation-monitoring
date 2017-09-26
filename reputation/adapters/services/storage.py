@@ -34,7 +34,7 @@ class StorageServiceBase(object):
     """
         Interface defining a storage service used to store documents.
         For example, an implementation might store those data in OpenStack
-        Swift, MongoDB, RDBMS or filesystem.
+        Swift, a DB, RDBMS or filesystem.
 
         The only exception allowed to be raised is :py:exc:`StorageServiceException`
     """

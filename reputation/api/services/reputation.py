@@ -18,10 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-    Reputation API service. Query MongoDB and build DTOs.
+    Reputation API service. Query DB and build DTOs.
 """
 
-from mongo import mongo
+from db import db
 from parsing.registered import parsers, shortened_names
 from utils import utils
 
@@ -34,10 +34,10 @@ def aggregate_reputation_per_source(addr, start_date):
         :param str addr: Ip the reputation must be computed with
         :param int start_date: Timestamp the events must be retrieved from
         :rtype: dict
-        :return: Dictionnary that gives for each source, the aggregated
+        :return: dictionary that gives for each source, the aggregated
             weight
     """
-    with mongo.Mongo() as database:
+    with db.DB() as database:
         events = database.find_all_events_for_ip(addr, start_date, True)
 
     # Reduce by source
@@ -76,7 +76,7 @@ def get_reputation_events_for_source(addr, source, start_date):
         :rtype: array
         :return: Array of events
     """
-    with mongo.Mongo() as database:
+    with db.DB() as database:
         events = database.find_all_event_data_for_ip(addr, start_date, True)
 
     result = [event for event in events if event['source'] == _map_source_from_shortname(source)]

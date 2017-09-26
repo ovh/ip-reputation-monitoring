@@ -1,4 +1,5 @@
 pymongo==2.7.2
+psycopg2
 netaddr==0.7.18
 beautifulsoup4==4.3.2
 flask==0.10.1

@@ -30,7 +30,7 @@ PARSER_NAME = 'BlockList'
 def compute_weight(service):
     """
         Map a service with a weight. All reported services have a
-        default weight of 10, except ssh failed attemp (1), manual
+        default weight of 10, except ssh failed attempt (1), manual
         list addition (5) and the wtf category "all" (5).
     """
     return {

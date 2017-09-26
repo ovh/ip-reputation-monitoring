@@ -37,14 +37,21 @@ LOGGER = {
     'level': logging.INFO,
 }
 
-#: MongoDB settings
-MONGODB = {
-    'host': os.getenv('MONGO_HOST'),
-    'port': os.getenv('MONGO_PORT'),
-    'db': os.getenv('MONGO_DB'),
-    'user': os.getenv('MONGO_USER'),
-    'password': os.getenv('MONGO_PASSWORD'),
-    'is_dev': (os.getenv('MONGO_IS_DEV') == 'YES'),
+#: DB settings
+DB = {
+    'host': os.getenv('DB_HOST'),
+    'port': os.getenv('DB_PORT'),
+    'db': os.getenv('DB_NAME'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'secured': True
+}
+SPAMHAUS_DB = {
+    'host': os.getenv('SPAMHAUS_DB_HOST'),
+    'port': os.getenv('SPAMHAUS_DB_PORT'),
+    'db': os.getenv('SPAMHAUS_DB'),
+    'user': os.getenv('SPAMHAUS_DB_USER'),
+    'password': os.getenv('SPAMHAUS_DB_PASSWORD'),
     'secured': True
 }
 

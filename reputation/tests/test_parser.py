@@ -14,7 +14,7 @@ class TestParser(unittest.TestCase):
         now = datetime(2015, 8, 15, 14, 30)
         res = parser._get_yesterday_date(now.date())
 
-        yesterday = datetime.utcfromtimestamp(res)
+        yesterday = datetime.fromtimestamp(res)
         self.assertEqual(2015, yesterday.year)
         self.assertEqual(8, yesterday.month)
         self.assertEqual(14, yesterday.day)
@@ -26,7 +26,7 @@ class TestParser(unittest.TestCase):
         now = datetime(2015, 1, 1, 14, 30)
         res = parser._get_yesterday_date(now.date())
 
-        yesterday = datetime.utcfromtimestamp(res)
+        yesterday = datetime.fromtimestamp(res)
         self.assertEqual(2014, yesterday.year)
         self.assertEqual(12, yesterday.month)
         self.assertEqual(31, yesterday.day)

@@ -27,7 +27,7 @@ import os
 import sys
 from adapters.services import storage
 from archive import archive
-from mongo import mongo
+from db import db
 from parsing.registered import parsers
 from reporting import reporter
 
@@ -84,7 +84,7 @@ def purge_database():
     """
         Archive old documents
     """
-    with mongo.Mongo() as database:
+    with db.DB() as database:
         database.purge_old_documents()
     sys.exit(0)
 

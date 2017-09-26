@@ -110,7 +110,7 @@ function parse {
 
 # Archive old entries
 function purge {
-    >&2 echo "### Purging Mongo"
+    >&2 echo "### Purging DB"
     date 1>&2
 
     ${REPUTATION_SCRIPT} --purge
