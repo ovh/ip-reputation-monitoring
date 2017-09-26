@@ -69,7 +69,7 @@ track network reputation.
 
 As you can see, `ip-reputation-monitoring` supports various way to monitor your IPs.
 Feel free to use only one of them if you don't need everything.
-If you choose to do so, you won't need every single steps of the installation.
+If you think you don't need all the different ways to monitor your IPs, you might not need every single steps in the following installation.
 
 ### Requirements ###
 
