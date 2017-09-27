@@ -24,6 +24,7 @@
 from db import mongo
 from parsing.registered import parsers, shortened_names
 from utils import utils
+import base64
 
 
 def aggregate_reputation_per_source(addr, start_date):
@@ -91,7 +92,7 @@ def get_reputation_events_for_source(addr, source, start_date):
     # If data are encoded, then decode all
     if is_encoded:
         for event in result:
-            event['data'] = event['data'].decode('base64') if event['data'] else event['data']
+            event['data'] = base64.b64decode(event['data']).decode() if event['data'] else event['data']
 
     return result
 

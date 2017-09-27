@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """ Spamhaus service unit tests """
@@ -39,5 +39,5 @@ class TestSpamhausService(unittest.TestCase):
 
             enter.find_spamhaus_entries.assert_called_with(True)
 
-            self.assertEquals(1, len(result))
-            self.assertEquals(expected, result)
+            self.assertEqual(1, len(result))
+            self.assertEqual(expected, result)

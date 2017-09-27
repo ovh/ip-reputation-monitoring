@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """ Utils unit tests """
@@ -15,7 +15,7 @@ class TestUtils(unittest.TestCase):
 
     def test_is_base64_encoded(self):
         str1 = "Hello world !!"
-        str2 = base64.b64encode("Hello\nWorld !!!")
+        str2 = base64.b64encode(b"Hello\nWorld !!!").decode()
 
         self.assertFalse(utils.is_base64_encoded(str1))
         self.assertTrue(utils.is_base64_encoded(str2))
@@ -28,7 +28,7 @@ class TestUtils(unittest.TestCase):
         else:
             expected = int(time.mktime(now.replace(month=now.month - 1).timetuple()))
 
-        self.assertEquals(expected, utils.get_a_month_ago_date())
+        self.assertEqual(expected, utils.get_a_month_ago_date())
 
     def test_is_managed_ip(self):
         settings.MANAGED_IPS_LIST = "tests/ips.list"

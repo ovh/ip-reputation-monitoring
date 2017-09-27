@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2016, OVH SAS
@@ -33,15 +33,15 @@ from reporting import reporter
 
 
 def usage(app):
-    print "ip-reputation-monitoring - Copyright (c) 2016, OVH SAS."
-    print "This program comes with ABSOLUTELY NO WARRANTY."
-    print "This is free software, and you are welcome to redistribute it under certain conditions."
-    print "For more details, see <http://www.gnu.org/licenses/>."
-    print
-    print "Usage:"
-    print "      " + app + " --parse [[--snds|--cleantalk|--blocklist|--stopforumspam] <file>|--mails]"
-    print "      " + app + " --purge"
-    print "      " + app + " --scores"
+    print("ip-reputation-monitoring - Copyright (c) 2016, OVH SAS.")
+    print("This program comes with ABSOLUTELY NO WARRANTY.")
+    print("This is free software, and you are welcome to redistribute it under certain conditions.")
+    print("For more details, see <http://www.gnu.org/licenses/>.")
+    print()
+    print("Usage:")
+    print("      " + app + " --parse [[--snds|--cleantalk|--blocklist|--stopforumspam] <file>|--mails]")
+    print("      " + app + " --purge")
+    print("      " + app + " --scores")
     sys.exit(1)
 
 
@@ -73,7 +73,7 @@ def run_parser(name, args=None):
     parser_class = get_parser_class(name)
 
     if not parser_class:
-        raise Exception(str('Unavailable parser for [%s].' % name))
+        raise Exception(str('Unavailable parser for [{}].'.format(name)))
 
     parser = parser_class(args) if args else parser_class()
     parser.run()

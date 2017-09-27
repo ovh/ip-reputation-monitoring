@@ -24,4 +24,4 @@ REPUTATION_DIR="${CURRENT_DIR}/reputation"
 
 RUN_API_SCRIPT="${REPUTATION_DIR}/run_api.py"
 
-python ${RUN_API_SCRIPT}
+python3 ${RUN_API_SCRIPT}

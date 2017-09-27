@@ -54,7 +54,7 @@ def parse_html(content):
         :rtype: array
         :return: Array of dictionnaries containing all opened SBL.
     """
-    soup = bs4.BeautifulSoup(content)
+    soup = bs4.BeautifulSoup(content, 'html.parser')
     search = soup.find_all(*TAG_TO_FIND)
 
     if not search:

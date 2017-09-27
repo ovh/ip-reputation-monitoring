@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2016, OVH SAS
@@ -35,7 +35,7 @@ def parse_html(content):
         :rtype: array
         :return: Bi-dimensionnal array containing for each line, parsed cells.
     """
-    soup = bs4.BeautifulSoup(content)
+    soup = bs4.BeautifulSoup(content, 'html.parser')
     search = soup.find_all("tr")
 
     if not search:
@@ -73,7 +73,7 @@ def main():
     content = '\n'.join(buf)
 
     for cells in parse_html(content):
-        print ','.join(cells)
+        print(','.join(cells))
 
 
 if __name__ == "__main__":

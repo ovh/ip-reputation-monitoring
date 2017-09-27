@@ -27,6 +27,7 @@ import socket
 import time
 from datetime import datetime
 import netaddr
+import base64
 from config import settings
 
 MANAGED_NETWORKS = []
@@ -64,8 +65,7 @@ def _read_managed_networks():
 def is_base64_encoded(string):
     """ Tells whether the passed string is base64 encoded or not. """
     try:
-        # Try to decode base64. It it is, dont add id into the mail.
-        return string == string.decode('base64').encode('base64').replace('\n', '').strip()
+        return string == base64.b64encode(base64.b64decode(string)).decode()
     except:
         return False
 

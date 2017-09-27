@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """ Reputation service unit tests """
@@ -19,14 +19,14 @@ class TestReputationServices(unittest.TestCase):
             enter.find_all_event_data_for_ip.return_value = [
                 {'weight': 3, 'timestamp': 4, 'filename': 'ZZZ', 'source': 'SpamCop', 'data': 'AAA'},
                 {'weight': 5, 'timestamp': 5, 'filename': 'YYY', 'source': 'SpamCop', 'data': 'BBB'},
-                {'weight': 7, 'timestamp': 6, 'filename': 'XXX', 'source': 'AOL', 'data': 'CCC'}       # NOP SOURCE
+                {'weight': 7, 'timestamp': 6, 'filename': 'XXX', 'source': 'AOL', 'data': 'CCC'}  # NOP SOURCE
             ]
 
             result = reputation.get_reputation_events_for_source('5.5.5.5', shortened_names['SpamCop'], 3)
 
             enter.find_all_event_data_for_ip.assert_called_with('5.5.5.5', 3, True)
 
-            self.assertEquals(2, len(result))
+            self.assertEqual(2, len(result))
             self.assertEqual(['YYY', 'ZZZ'], sorted([r['filename'] for r in result]))
 
     def test_reputation_events_for_source_b64(self):
@@ -42,7 +42,7 @@ class TestReputationServices(unittest.TestCase):
 
             enter.find_all_event_data_for_ip.assert_called_with('5.5.5.5', 3, True)
 
-            self.assertEquals(1, len(result))
+            self.assertEqual(1, len(result))
             self.assertEqual("Hello world", result[0]['data'])
 
     def test_aggregated_reputation(self):
@@ -73,7 +73,8 @@ class TestReputationServices(unittest.TestCase):
                     'full_name': parser,
                     'result': weight,
                 })
+            get_full_name = lambda elem: elem['full_name']
 
             # Assertions
-            self.assertEquals(len(expected), len(result))
-            self.assertEqual(expected, result)
+            self.assertEqual(len(expected), len(result))
+            self.assertEqual(sorted(expected, key=get_full_name), sorted(result, key=get_full_name))

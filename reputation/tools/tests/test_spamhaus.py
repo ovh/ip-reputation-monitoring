@@ -24,7 +24,7 @@ class TestSpamhaus(unittest.TestCase):
         expected_document = {
             'sbl_number': 284491,
             'first_seen': datetime(2016, 1, 28, 23, 30),
-            'cidr': u'5.39.124.160/27'
+            'cidr': '5.39.124.160/27'
         }
 
         self.assertEqual(expected_document, documents[11])

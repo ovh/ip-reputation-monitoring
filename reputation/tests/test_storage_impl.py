@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """ Default storage implementation unit tests """
@@ -10,7 +10,7 @@ from default.adapters.services.storage import FilesystemStorageService
 
 ROOT_STORAGE_DIR = "storage_test"
 WRITTEN_FILE = "foo/bar.file"
-FILE_CONTENT = "Hello world !"
+FILE_CONTENT = b"Hello world !"
 
 
 class TestDefaultStorageImpl(unittest.TestCase):
@@ -38,7 +38,7 @@ class TestDefaultStorageImpl(unittest.TestCase):
         self.assertTrue(os.path.exists(full_file_path))
 
         buf = storage.read(WRITTEN_FILE)
-        self.assertEquals(FILE_CONTENT, buf)
+        self.assertEqual(FILE_CONTENT, buf)
 
         storage.delete(WRITTEN_FILE)
         self.assertFalse(os.path.exists(full_file_path))
@@ -53,7 +53,7 @@ class TestDefaultStorageImpl(unittest.TestCase):
         """ Cannot write in /bin (dont run this test as root please !) ==> StorageServiceException """
         with self.assertRaises(StorageServiceException):
             storage = FilesystemStorageService("/bin")
-            storage.write("foo", "bar")
+            storage.write("foo", b"bar")
 
     def test_cannot_delete(self):
         """ Try to delete a file that does not exist => StorageServiceException """

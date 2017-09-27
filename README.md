@@ -77,10 +77,10 @@ To setup this little tool, you'll need:
 
  * A Linux environment (it might work under Windows but you'll need to rewrite
  shell scripts)
- * Python 2.7+
- * Packages `python-dev` and `python-pip`
+ * Python 3
+ * Packages `python3-dev` and `python3-pip`
  * A MongoDB database (2.6.x or greater with TLS support*)
- * A PostgreSQL database (9.2+ or greater)
+ * A PostgreSQL database (9.2+ or greater or greater with TLS support*)
  * A MX supporting IMAPS
  * A scheduler (cron, supervisor, ...)
 
@@ -91,7 +91,7 @@ To setup this little tool, you'll need:
 When all of these requirements are met, you can install the tool:
 
  1. Download the zipfile or checkout the sources.
- 2. Install python dependencies (apt-get install python-dev python-pip)
+ 2. Install python dependencies (apt-get install python3-dev python3-pip)
  3. Run `make install-deps`.
  4. Install MongoDB, add a DB and an user:
     ```bash

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """ Decorators unit tests """
@@ -22,6 +22,6 @@ class TestDecorators(unittest.TestCase):
 
         response = _my_test_func(method_input, 200)
 
-        self.assertEquals(expected, response.data)
-        self.assertEquals(200, response.status_code)
-        self.assertEquals('application/json', response.content_type)
+        self.assertEqual(expected, response.data.decode())
+        self.assertEqual(200, response.status_code)
+        self.assertEqual('application/json', response.content_type)

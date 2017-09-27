@@ -47,7 +47,7 @@ class CSVParser(Parser):
         Parser.__init__(self)
 
         if not os.path.exists(input_file):
-            raise IOError(str('File [%s] does not exist.' % (input_file)))
+            raise IOError(str('File [{}] does not exist.'.format(input_file)))
 
         self._delim = delimiter
         self._current_row = 0
@@ -57,7 +57,7 @@ class CSVParser(Parser):
 
     def next(self):
         try:
-            return self._rows.next()
+            return next(self._rows)
         except:
             return None
 

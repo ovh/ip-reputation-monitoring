@@ -44,6 +44,6 @@ def archive_rbl(filename, rbl_type):
         suffix
     ])
 
-    with open(filename, 'r') as fdesc:
+    with open(filename, 'rb') as fdesc:
         with ImplementationFactory.instance.get_instance_of("StorageServiceBase", settings.RBL_STORAGE_CONTEXT) as storage:
             return storage.write(object_name, fdesc.read())

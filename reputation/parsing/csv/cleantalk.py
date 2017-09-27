@@ -37,7 +37,7 @@ class CleanTalkParser(CSVParser):
         CSVParser.__init__(self, path, ',')
 
     def compute_weight(self, data):
-        return float(data[3]) / 10.0 if data[3] else 1
+        return float(data[3]) / 10 if data[3] else 1
 
     def get_date(self, data):
         return datetime.strptime(data[2], '%Y-%m-%d %H:%M:%S') if data[2] else datetime.now()

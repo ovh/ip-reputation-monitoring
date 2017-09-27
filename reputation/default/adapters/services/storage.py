@@ -66,7 +66,7 @@ class FilesystemStorageService(storage.StorageServiceBase):
             raise storage.StorageServiceException('File does not exist.')
 
         try:
-            with open(target, 'r') as fdesc:
+            with open(target, 'rb') as fdesc:
                 return fdesc.read()
         except Exception as exc:
             raise storage.StorageServiceException(exc)

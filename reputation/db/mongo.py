@@ -22,6 +22,7 @@
 import hashlib
 import random
 import time
+import ssl
 
 import pymongo
 from bson.code import Code
@@ -74,7 +75,8 @@ class Mongo(object):
                 settings.MONGO_DB['port'],
                 settings.MONGO_DB['db']
             ),
-            ssl=settings.MONGO_DB['secured']
+            ssl=settings.MONGO_DB['secured'],
+            ssl_cert_reqs=ssl.CERT_NONE
         )
 
         self._db = self._client[settings.MONGO_DB['db']]

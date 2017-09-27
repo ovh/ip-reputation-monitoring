@@ -26,4 +26,4 @@ SPAMHAUS_SCRIPT="${REPUTATION_DIR}/spamhaus_monitor.py"
 
 
 # Get SBL listings for domain and let python script parse content
-curl --location --silent "http://www.spamhaus.org/sbl/listings/${SPAMHAUS_DOMAIN_NAME}" |  python ${SPAMHAUS_SCRIPT}
+curl --location --silent "http://www.spamhaus.org/sbl/listings/${SPAMHAUS_DOMAIN_NAME}" |  python3 ${SPAMHAUS_SCRIPT}

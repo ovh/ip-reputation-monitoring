@@ -54,10 +54,10 @@ class SNDSParser(CSVParser):
             complain_rate = 1.0
         else:
             complain_rate = complain_rate.replace('<', '').replace('>', '').replace('%', '')
-            complain_rate = float(complain_rate.strip()) / 2 + 0.95
+            complain_rate = float(complain_rate.strip()) // 2 + 0.95
 
         # The more there are complains and grade is bad, the more this IP will have a bad reputation
-        return float(data[3]) / THE_LIMIT * float(compute_base_weight(data[6])) * complain_rate
+        return float(data[3]) // THE_LIMIT * float(compute_base_weight(data[6])) * complain_rate
 
     def get_date(self, data):
         return datetime.strptime(data[2], '%m/%d/%Y %H:%M %p') if data[2] else datetime.now()

@@ -20,7 +20,7 @@ about it or please open one otherwise.
 It worth mentioning you can freely improve the rating !
 - If we ask for a few changes, please amend your commit rather than creating new
 commits.
-- Remember to be `Python 2.7` compliant.
+- Remember to be `Python 3` compliant.
 
 # How to start coding ?
 
