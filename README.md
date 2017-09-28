@@ -75,14 +75,10 @@ If you think you don't need all the different ways to monitor your IPs (RBL, FBL
 
 To setup this little tool, you'll need:
 
- * A Linux environment (it might work under Windows but you'll need to rewrite
- shell scripts)
- * Python 3
- * Packages `python3-dev` and `python3-pip`
- * A MongoDB database (2.6.x or greater with TLS support*)
+ * Docker
  * A PostgreSQL database (9.2+ or greater or greater with TLS support*)
+ * A Mongo database (2.6.x or greater with TLS support*)
  * A MX supporting IMAPS
- * A scheduler (cron, supervisor, ...)
 
 *TLS support can be disabled by editing `settings/config.py`.
 
@@ -91,15 +87,12 @@ To setup this little tool, you'll need:
 When all of these requirements are met, you can install the tool:
 
  1. Download the zipfile or checkout the sources.
- 2. Install python dependencies (apt-get install python3-dev python3-pip)
- 3. Run `make install-deps`.
- 4. Install MongoDB, add a DB and an user:
+ 2. In MongoDB, add a DB and an user:
     ```bash
-    sudo apt-get install mongodb
-    db
     use db_name
     db.addUser('user', 'password')
     ```
+ 3. In PostgreSQL, add create user/password then add the table by running the script in `reputation/db/db.sql`
 
 ## Configuration ##
 
@@ -166,11 +159,23 @@ At last, you need add your network addresses CIDRs (only one per line) in the
 
 ## Running ##
 
-You can now insert theses entries in your favorite scheduler:
+Inside the docker, the following scripts are running:
 
- * Schedule `reputation-rbl.sh` to be run once a day.
- * Schedule `spamhaus-bl.sh` to be run every hour.
- * Schedule `reputation-fbl.sh` and `api.sh` to be run as a daemon.
+ * `reputation-rbl.sh` runs every 2 hours.
+ * `spamhaus-bl.sh` runs every hour.
+ * `reputation-fbl.sh` and `api.sh` run as a daemon (and constitute the stdout + stderr of the docker).
+
+To run the docker, first edit the `deploy/run.sh` then launch this command:
+
+```bash
+make docker-run
+```
+
+Alternatively you can launch:
+```bash
+make docker-build
+./deploy/run.sh
+```
 
 ## API ##
 
