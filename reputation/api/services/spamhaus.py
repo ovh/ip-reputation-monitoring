@@ -33,7 +33,7 @@ def get_spamhaus_entries(is_active):
     # Query DB
     with postgres.Postgres() as database:
         documents = database.find_spamhaus_entries(is_active)
-        if not documents:
+        if documents is None:
             return None
 
     # Format dto
