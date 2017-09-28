@@ -33,9 +33,9 @@ network. Those mails can be sent by e-mail hosting providers or by
 foundations fighting against spams in order to give a feedback about
 suspicious mails issued from the network.
 The tool supports Abuse Reporting Format (ARF) which is a standard
-to report suspicious mails used by AOL and SignalSpam feebacks.
+to report suspicious mails used by AOL and SignalSpam feedbacks.
 
-SpamCop feebacks are also supported by the tool, even if their mails
+SpamCop feedbacks are also supported by the tool, even if their mails
 do not follows ARF guidelines.
 
 ### DNS BL ###
@@ -69,7 +69,7 @@ track network reputation.
 
 As you can see, `ip-reputation-monitoring` supports various way to monitor your IPs.
 Feel free to use only one of them if you don't need everything.
-If you think you don't need all the different ways to monitor your IPs, you might not need every single steps in the following installation.
+If you think you don't need all the different ways to monitor your IPs (RBL, FBL, DNS BL), you might not need every single steps in the following installation.
 
 ### Requirements ###
 
