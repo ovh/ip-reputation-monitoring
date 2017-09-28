@@ -122,7 +122,7 @@ class Parser(object):
         """
             Run the parser.
         """
-        with db.DB() as database:
+        with db.Mongo() as database:
             current = self.next()
             while current:
                 try:

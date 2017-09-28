@@ -43,7 +43,7 @@ class Reporter(object):
         """
             The only public method used to run the process of email sending.
         """
-        with db.DB() as database:
+        with db.Mongo() as database:
             for entry in database.find_highest_scores():
                 subject = self._prepare_subject(entry['_id'], entry['value'])
 

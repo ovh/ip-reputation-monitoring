@@ -84,7 +84,7 @@ def purge_database():
     """
         Archive old documents
     """
-    with db.DB() as database:
+    with db.Mongo() as database:
         database.purge_old_documents()
     sys.exit(0)
 

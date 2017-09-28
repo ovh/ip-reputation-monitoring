@@ -31,7 +31,7 @@ def get_spamhaus_entries(is_active):
         Retrive from DB spamhaus entry, active or not.
     """
     # Query DB
-    with db.DB() as database:
+    with db.Postgres() as database:
         documents = database.find_spamhaus_entries(is_active)
         if not documents:
             return None

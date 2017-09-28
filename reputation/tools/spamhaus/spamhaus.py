@@ -94,7 +94,7 @@ def update_db(documents):
 
         :param tuple documents: A tuple of dict containing documents to upsert.
     """
-    with db.DB() as database:
+    with db.Postgres() as database:
         database.update_spamhaus_entries(documents)
 
 
