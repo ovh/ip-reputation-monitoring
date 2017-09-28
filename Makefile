@@ -3,11 +3,12 @@ FIND=find
 DEL=rm
 TAR=tar
 PYTHON=python3
-PIP=pip
+PIP=pip3
 COVERAGE=coverage
 COVERALLS=coveralls
 PYLINT=pylint
 SPHINX=sphinx-build
+DOCKER=docker
 
 MODULE_DIR=reputation
 DOC_DIR=doc/build
@@ -48,6 +49,12 @@ coveralls:
 lint:
 	cd $(MODULE_DIR) && \
 	$(PYLINT) --disable=W0141 --max-line-length=150 adapters/ api/ archive/ config/ default/ factory/ main.py mongo/ parsing/ reporting/ run_api.py tests/ spamhaus_monitor.py  tools/ utils/
+
+docker-build:
+	$(DOCKER) build -t ip-reputation . -f deploy/Dockerfile
+
+docker-run: docker-build
+	./deploy/run.sh
 
 doc: clean-doc
 	$(SPHINX) -b html doc/source doc/build

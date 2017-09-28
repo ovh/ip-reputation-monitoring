@@ -130,7 +130,7 @@ def main(argv):
 
                 run_parser(input_type, argv[3])
                 os.remove(argv[3])
-            elif input_type in 'mails':
+            elif input_type == 'mails':
                 run_parser(input_type)
     elif len(argv) == 2:
         if argv[1] == '--purge':

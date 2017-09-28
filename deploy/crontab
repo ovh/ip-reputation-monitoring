@@ -1,0 +1,4 @@
+# m h dom mon dow user	command
+* */2 * * *        root  cd /srv/ip-reputation/ && ./reputation-rbl.sh
+* 40 * * *        root  cd /srv/ip-reputation/ && ./spamhaus-bl.sh
+
