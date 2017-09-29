@@ -19,6 +19,8 @@
 
 
 # RBL URL
+AS_NUMBER=$(secret_manager.py AS_NUMBER)
+SNDS_KEY=$(secret_manager.py SNDS_KEY)
 STOP_FORUM_SPAM=http://www.stopforumspam.com/downloads/listed_ip_1_all.zip
 SNDS="https://postmaster.live.com/snds/data.aspx?key=${SNDS_KEY}&days=2"
 CLEANTALK=https://cleantalk.org/blacklists/AS${AS_NUMBER}

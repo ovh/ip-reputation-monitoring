@@ -125,6 +125,21 @@ variables:
  * `SPAMHAUS_DOMAIN_NAME`: the domain your IPs are attached to, i.e.: OVH one
  is `ovh.net`
 
+If you need to, you can also store all these variables in Vault as a json, under the key `ip-reputation/config`,
+the JSON should look something like this:
+```json
+{
+  "AS_NUMBER": 16276,
+  "EMAIL_HOST": "test@test.org",
+  ...
+}
+```
+
+You'll also need to provide 2 environment variables:
+
+ * `VAULT_URL`: The url of the vault application (ex: https://localhost:468/vault/)
+ * `VAULT_TOKEN`: The auth token for the vault application
+
 ### Tagging incoming e-mails ###
 
 As you can see, a required varenv is called `FBL_PARTNER_HEADER`.
