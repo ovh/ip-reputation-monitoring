@@ -120,7 +120,7 @@ variables:
  * `MONGO_PASSWORD`: MongoDB password
  * `REPORTING_TARGET`: e-mail address where a daily report about ips with the
  worst reputation must be sent
- * `REPORTING_SENDER`: `From:` header value of the dail report e-mail
+ * `REPORTING_SENDER`: `From:` header value of the daily report e-mail
  * `SNDS_KEY`: your personal SNDS key
  * `SPAMHAUS_DOMAIN_NAME`: the domain your IPs are attached to, i.e.: OVH one
  is `ovh.net`

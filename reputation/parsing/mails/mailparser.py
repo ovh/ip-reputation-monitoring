@@ -54,7 +54,7 @@ class MailParser(Parser):
 
     def _feed_queue(self, first_call=False):
         """
-            Read the next inqueued e-mails.
+            Read the next enqueued e-mails.
 
             :param bool first_call: Whether this is the first time this method is called (default False)
         """
@@ -95,7 +95,7 @@ class MailParser(Parser):
         if self._current >= len(self._queue):
             self._feed_queue()
 
-        res = self._queue[self._current]
+        res = self._queue[self._current].decode()
 
         LOGGER.debug('Parsing mail...')
         try:
@@ -112,7 +112,7 @@ class MailParser(Parser):
             # Remove uid from the list so this email won't be deleted.
             self._uids.remove(self._uids[self._current])
             # Remove mail from the queue
-            self._queue.remove(res)
+            self._queue.remove(self._queue[self._current])
 
             LOGGER.debug('Ok. Now, try to fetch another mail...')
 
