@@ -23,7 +23,7 @@
 """
 
 from time import mktime
-from db import db
+from db import postgres
 
 
 def get_spamhaus_entries(is_active):
@@ -31,7 +31,7 @@ def get_spamhaus_entries(is_active):
         Retrive from DB spamhaus entry, active or not.
     """
     # Query DB
-    with db.Postgres() as database:
+    with postgres.Postgres() as database:
         documents = database.find_spamhaus_entries(is_active)
         if not documents:
             return None

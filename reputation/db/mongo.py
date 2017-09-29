@@ -22,11 +22,8 @@
 import hashlib
 import random
 import time
-from datetime import datetime
 
 import pymongo
-import psycopg2
-from psycopg2 import extras
 from bson.code import Code
 from config import settings
 from utils import utils
@@ -36,9 +33,7 @@ IP_COLLECTION = 'iptable'
 RAW_COLLECTION = 'rawfiles'
 ARCHIVE_COLLECTION = 'archives'
 TOPTEN_COLLECTION = 'top10'
-
 A_MONTH_AGO = utils.get_a_month_ago_date()
-
 TOP_LIMIT = 10
 
 
@@ -362,91 +357,3 @@ class Mongo(object):
                 events.append(event)
 
         return events
-
-
-class Postgres(object):
-    """
-        This class is designed to provide everything needed to deal with postgres
-        In other words, this class is a typical data access object.
-    """
-
-    def __init__(self):
-        """
-            Constructor that only aims to init members and random numbers
-            generator.
-        """
-        random.seed(time.time())
-
-        self._ip_cache = []
-
-    def __enter__(self):
-        self._open()
-        return self
-
-    def __exit__(self, type_exc, value, traceback):
-        self._close()
-        return False
-
-    def _open(self):
-        """
-            Open connection to PostgreSQL
-        """
-        ssl = 'require' if settings.SPAMHAUS_DB['secured'] else None
-        self._connection = psycopg2.connect(database=settings.SPAMHAUS_DB['db'],
-                                            user=settings.SPAMHAUS_DB['user'],
-                                            password=settings.SPAMHAUS_DB['password'],
-                                            host=settings.SPAMHAUS_DB['host'],
-                                            port=settings.SPAMHAUS_DB['port'],
-                                            sslmode=ssl)
-        self._cursor = self._connection.cursor(cursor_factory=extras.DictCursor)
-
-    def _close(self):
-        """ Close db's connection. """
-        self._connection.close()
-
-    def update_spamhaus_entries(self, documents):
-        """
-            Update or insert a spamhaus entry into the spamhaus table. For each entry that
-            is no longer active, update them to set their attr `active` to false.
-
-            :param list documents: List of dictionaries representing documents to upsert having at least
-            those mandatory keys: [sbl_number, cidr]
-        """
-        now = datetime.now()
-
-        # First upsert still active entries
-        for document in documents:
-            self._cursor.execute("INSERT INTO spamhaus (sbl_number, cidr) "
-                                 "VALUES (%s, %s) "
-                                 "ON CONFLICT (sbl_number) DO UPDATE SET "
-                                 "   last_seen = %s,"
-                                 "   active = TRUE",
-                                 (document['sbl_number'], document['cidr'], now))
-
-        # Now, set inactive all active documents that are not in documents
-        active_ids = [doc['sbl_number'] for doc in documents]
-        self._cursor.execute("UPDATE spamhaus "
-                             "SET active = FALSE "
-                             "WHERE active = TRUE AND sbl_number NOT IN %s",
-                             (tuple(active_ids),))
-
-        self._connection.commit()
-
-    def find_spamhaus_entries(self, is_active=None):
-        """
-            Retrieve all registered spamhaus tickets.
-
-            :param bool is_active: (Optional) Filter tickets depending if they're still active or not.
-            :rtype: cursor
-            :return: All desired spamhaus tickets sorted by first_seen date (asc)
-        """
-        if is_active is None:
-            self._cursor.execute("SELECT * FROM spamhaus "
-                                 "ORDER BY first_seen ASC")
-            return self._cursor.fetchall()
-
-        self._cursor.execute("SELECT * FROM spamhaus "
-                             "WHERE active = %s "
-                             "ORDER BY first_seen ASC",
-                             (is_active,))
-        return self._cursor.fetchall()

@@ -23,7 +23,7 @@ import abc
 import time
 import traceback
 from datetime import datetime, timedelta
-from db import db
+from db import mongo
 from utils import utils
 from utils.logger import LOGGER
 
@@ -122,7 +122,7 @@ class Parser(object):
         """
             Run the parser.
         """
-        with db.Mongo() as database:
+        with mongo.Mongo() as database:
             current = self.next()
             while current:
                 try:

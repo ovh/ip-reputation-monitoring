@@ -13,7 +13,7 @@ class TestReputationServices(unittest.TestCase):
     """ Reputation service unit tests """
 
     def test_reputation_events_for_source(self):
-        with patch('db.db.Mongo') as mock:
+        with patch('db.mongo.Mongo') as mock:
             instance = mock.return_value
             enter = instance.__enter__.return_value
             enter.find_all_event_data_for_ip.return_value = [
@@ -30,7 +30,7 @@ class TestReputationServices(unittest.TestCase):
             self.assertEqual(['YYY', 'ZZZ'], sorted([r['filename'] for r in result]))
 
     def test_reputation_events_for_source_b64(self):
-        with patch('db.db.Mongo') as mock:
+        with patch('db.mongo.Mongo') as mock:
             instance = mock.return_value
             enter = instance.__enter__.return_value
             enter.find_all_event_data_for_ip.return_value = [
@@ -46,7 +46,7 @@ class TestReputationServices(unittest.TestCase):
             self.assertEqual("Hello world", result[0]['data'])
 
     def test_aggregated_reputation(self):
-        with patch('db.db.Mongo') as mock:
+        with patch('db.mongo.Mongo') as mock:
             instance = mock.return_value
             enter = instance.__enter__.return_value
             enter.find_all_events_for_ip.return_value = [

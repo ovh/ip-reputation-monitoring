@@ -21,7 +21,7 @@
     Reputation API service. Query DB and build DTOs.
 """
 
-from db import db
+from db import mongo
 from parsing.registered import parsers, shortened_names
 from utils import utils
 
@@ -37,7 +37,7 @@ def aggregate_reputation_per_source(addr, start_date):
         :return: dictionary that gives for each source, the aggregated
             weight
     """
-    with db.Mongo() as database:
+    with mongo.Mongo() as database:
         events = database.find_all_events_for_ip(addr, start_date, True)
 
     # Reduce by source
@@ -76,7 +76,7 @@ def get_reputation_events_for_source(addr, source, start_date):
         :rtype: array
         :return: Array of events
     """
-    with db.Mongo() as database:
+    with mongo.Mongo() as database:
         events = database.find_all_event_data_for_ip(addr, start_date, True)
 
     result = [event for event in events if event['source'] == _map_source_from_shortname(source)]

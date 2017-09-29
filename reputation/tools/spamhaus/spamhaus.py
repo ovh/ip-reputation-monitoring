@@ -24,7 +24,7 @@
 import sys
 from datetime import datetime
 import bs4
-from db import db
+from db import postgres
 from utils import utils
 from utils.logger import LOGGER
 
@@ -94,7 +94,7 @@ def update_db(documents):
 
         :param tuple documents: A tuple of dict containing documents to upsert.
     """
-    with db.Postgres() as database:
+    with postgres.Postgres() as database:
         database.update_spamhaus_entries(documents)
 
 

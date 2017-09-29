@@ -22,7 +22,7 @@
 import smtplib
 from email.mime.text import MIMEText
 from config import settings
-from db import db
+from db import mongo
 from utils import utils
 from utils.logger import LOGGER
 
@@ -43,7 +43,7 @@ class Reporter(object):
         """
             The only public method used to run the process of email sending.
         """
-        with db.Mongo() as database:
+        with mongo.Mongo() as database:
             for entry in database.find_highest_scores():
                 subject = self._prepare_subject(entry['_id'], entry['value'])
 
