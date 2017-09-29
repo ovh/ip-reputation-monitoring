@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2016, OVH SAS
+# Copyright (C) 2017, OVH SAS
 #
 # This file is part of ip-reputation-monitoring.
 #
