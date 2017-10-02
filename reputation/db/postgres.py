@@ -18,8 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """ Everything you need to deal with the databases is here. """
-
-import random
 import time
 from datetime import datetime
 
@@ -33,15 +31,6 @@ class Postgres(object):
         This class is designed to provide everything needed to deal with postgres
         In other words, this class is a typical data access object.
     """
-
-    def __init__(self):
-        """
-            Constructor that only aims to init members and random numbers
-            generator.
-        """
-        random.seed(time.time())
-
-        self._ip_cache = []
 
     def __enter__(self):
         self._open()
@@ -81,18 +70,24 @@ class Postgres(object):
         # First upsert still active entries
         for document in documents:
             self._cursor.execute("INSERT INTO spamhaus (sbl_number, cidr) "
-                                 "VALUES (%s, %s) "
+                                 "VALUES (%(sbl_number)s, %(cidr)s) "
                                  "ON CONFLICT (sbl_number) DO UPDATE SET "
-                                 "   last_seen = %s,"
+                                 "   last_seen = %(now)s,"
                                  "   active = TRUE",
-                                 (document['sbl_number'], document['cidr'], now))
+                                 {
+                                     "sbl_number": document['sbl_number'],
+                                     "cidr": document['cidr'],
+                                     "now": now
+                                 })
 
         # Now, set inactive all active documents that are not in documents
         active_ids = [doc['sbl_number'] for doc in documents]
         self._cursor.execute("UPDATE spamhaus "
                              "SET active = FALSE "
-                             "WHERE active = TRUE AND sbl_number NOT IN %s",
-                             (tuple(active_ids),))
+                             "WHERE active = TRUE AND sbl_number NOT IN %(actives)s",
+                             {
+                                 "active": tuple(active_ids)
+                             })
 
         self._connection.commit()
 
@@ -110,7 +105,9 @@ class Postgres(object):
             return self._cursor.fetchall()
 
         self._cursor.execute("SELECT * FROM spamhaus "
-                             "WHERE active = %s "
+                             "WHERE active = %(active)s "
                              "ORDER BY first_seen ASC",
-                             (is_active,))
+                             {
+                                 "active": is_active
+                             })
         return self._cursor.fetchall()

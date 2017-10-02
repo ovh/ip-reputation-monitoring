@@ -39,19 +39,19 @@ LOGGER = {
 
 #: DB settings
 DB = {
-    'host': os.getenv('DB_HOST'),
-    'port': os.getenv('DB_PORT'),
-    'db': os.getenv('DB_NAME'),
-    'user': os.getenv('DB_USER'),
-    'password': os.getenv('DB_PASSWORD'),
+    'host': os.getenv('MONGO_HOST'),
+    'port': os.getenv('MONGO_PORT'),
+    'db': os.getenv('MONGO_DB_NAME'),
+    'user': os.getenv('MONGO_USER'),
+    'password': os.getenv('MONGO_PASSWORD'),
     'secured': True
 }
 SPAMHAUS_DB = {
-    'host': os.getenv('SPAMHAUS_DB_HOST'),
-    'port': os.getenv('SPAMHAUS_DB_PORT'),
-    'db': os.getenv('SPAMHAUS_DB'),
-    'user': os.getenv('SPAMHAUS_DB_USER'),
-    'password': os.getenv('SPAMHAUS_DB_PASSWORD'),
+    'host': os.getenv('POSTGRES_HOST'),
+    'port': os.getenv('POSTGRES_PORT'),
+    'db': os.getenv('POSTGRES_DB_NAME'),
+    'user': os.getenv('POSTGRES_USER'),
+    'password': os.getenv('POSTGRES_PASSWORD'),
     'secured': True
 }
 
