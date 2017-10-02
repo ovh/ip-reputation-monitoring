@@ -98,6 +98,8 @@ When all of these requirements are met, you can install the tool:
 
 ### General settings ###
 
+In this section, you'll need to edit the file in `deploy/vars.env`.
+
 For security purpose, most of setting values must be defined as VARENV.
 So, to configure the tool, you just have to export following environment
 variables:
@@ -135,7 +137,7 @@ the JSON should look something like this:
 }
 ```
 
-You'll also need to provide 2 environment variables:
+For this to work, you'll also need to provide 2 environment variables:
 
  * `VAULT_URL`: The url of the vault application (ex: https://localhost:468/vault/)
  * `VAULT_TOKEN`: The auth token for the vault application
