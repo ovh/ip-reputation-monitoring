@@ -86,7 +86,7 @@ class Postgres(object):
                              "SET active = FALSE "
                              "WHERE active = TRUE AND sbl_number NOT IN %(actives)s",
                              {
-                                 "active": tuple(active_ids)
+                                 "actives": tuple(active_ids)
                              })
 
         self._connection.commit()
