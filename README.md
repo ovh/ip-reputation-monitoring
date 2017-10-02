@@ -112,12 +112,12 @@ variables:
  section)
  * `POSTGRES_HOST`: ip or domain of your PostgreSQL DB host
  * `POSTGRES_PORT`: port to reach PostgreSQL
- * `POSTGRES_DB_NAME`: name of the PostgreSQL database
+ * `POSTGRES_DB`: name of the PostgreSQL database
  * `POSTGRES_USER`: PostgreSQL user
  * `POSTGRES_PASSWORD`: PostgreSQL password
  * `MONGO_HOST`: ip or domain of your MongoDB host
  * `MONGO_PORT`: port to reach MongoDB
- * `MONGO_DB_NAME`: name of the Mongo database
+ * `MONGO_DB`: name of the Mongo database
  * `MONGO_USER`: MongoDB user
  * `MONGO_PASSWORD`: MongoDB password
  * `REPORTING_TARGET`: e-mail address where a daily report about ips with the

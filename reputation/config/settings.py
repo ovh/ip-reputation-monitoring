@@ -42,7 +42,7 @@ LOGGER = {
 MONGO_DB = {
     'host': secret_manager.secrets['MONGO_HOST'],
     'port': secret_manager.secrets['MONGO_PORT'],
-    'db': secret_manager.secrets['MONGO_DB_NAME'],
+    'db': secret_manager.secrets['MONGO_DB'],
     'user': secret_manager.secrets['MONGO_USER'],
     'password': secret_manager.secrets['MONGO_PASSWORD'],
     'secured': True
@@ -50,7 +50,7 @@ MONGO_DB = {
 SPAMHAUS_DB = {
     'host': secret_manager.secrets['POSTGRES_HOST'],
     'port': secret_manager.secrets['POSTGRES_PORT'],
-    'db': secret_manager.secrets['SPAMHAUS_DB'],
+    'db': secret_manager.secrets['POSTGRES_DB'],
     'user': secret_manager.secrets['POSTGRES_USER'],
     'password': secret_manager.secrets['POSTGRES_PASSWORD'],
     'secured': True
