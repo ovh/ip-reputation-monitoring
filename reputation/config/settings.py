@@ -20,7 +20,8 @@
 """ Global solution settings """
 
 import logging
-import secret_manager
+
+from config import secret_manager
 
 #: Tells the app which implementations to load
 CUSTOM_IMPLEMENTATIONS = (

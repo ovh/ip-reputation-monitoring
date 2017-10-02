@@ -18,9 +18,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+# Directories computation
+CURRENT_DIR=`dirname \`readlink -f $0\``
+REPUTATION_DIR="${CURRENT_DIR}/reputation"
+OUTPUT_DIR="${CURRENT_DIR}/temp"
+
+REPUTATION_SCRIPT="${REPUTATION_DIR}/main.py"
+
 # RBL URL
-AS_NUMBER=$(secret_manager.py AS_NUMBER)
-SNDS_KEY=$(secret_manager.py SNDS_KEY)
+AS_NUMBER=$(${REPUTATION_DIR}/config/secret_manager.py AS_NUMBER)
+SNDS_KEY=$(${REPUTATION_DIR}/config/secret_manager.py SNDS_KEY)
 STOP_FORUM_SPAM=http://www.stopforumspam.com/downloads/listed_ip_1_all.zip
 SNDS="https://postmaster.live.com/snds/data.aspx?key=${SNDS_KEY}&days=2"
 CLEANTALK=https://cleantalk.org/blacklists/AS${AS_NUMBER}
@@ -28,13 +35,6 @@ BLOCKLIST=http://lists.blocklist.de/lists/dnsbl/all.list
 
 # User agent to get RBL with
 USER_AGENT='Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0 Iceweasel/38.2.0'
-
-# Directories computation
-CURRENT_DIR=`dirname \`readlink -f $0\``
-REPUTATION_DIR="${CURRENT_DIR}/reputation"
-OUTPUT_DIR="${CURRENT_DIR}/temp"
-
-REPUTATION_SCRIPT="${REPUTATION_DIR}/main.py"
 
 
 # Download RBL and store them in ${OUTPUT_DIR}
