@@ -22,7 +22,6 @@
 CURRENT_DIR=`dirname \`readlink -f $0\``
 REPUTATION_DIR="${CURRENT_DIR}/reputation"
 
-SPAMHAUS_DOMAIN_NAME=$(${REPUTATION_DIR}/config/secret_manager.py SPAMHAUS_DOMAIN_NAME)
 SPAMHAUS_SCRIPT="${REPUTATION_DIR}/spamhaus_monitor.py"
 
 

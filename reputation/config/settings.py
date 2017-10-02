@@ -20,8 +20,7 @@
 """ Global solution settings """
 
 import logging
-
-from config import secret_manager
+import os
 
 #: Tells the app which implementations to load
 CUSTOM_IMPLEMENTATIONS = (
@@ -40,34 +39,34 @@ LOGGER = {
 
 #: DB settings
 MONGO_DB = {
-    'host': secret_manager.secrets['MONGO_HOST'],
-    'port': secret_manager.secrets['MONGO_PORT'],
-    'db': secret_manager.secrets['MONGO_DB'],
-    'user': secret_manager.secrets['MONGO_USER'],
-    'password': secret_manager.secrets['MONGO_PASSWORD'],
+    'host': os.getenv('MONGO_HOST'),
+    'port': os.getenv('MONGO_PORT'),
+    'db': os.getenv('MONGO_DB'),
+    'user': os.getenv('MONGO_USER'),
+    'password': os.getenv('MONGO_PASSWORD'),
     'secured': True
 }
 SPAMHAUS_DB = {
-    'host': secret_manager.secrets['POSTGRES_HOST'],
-    'port': secret_manager.secrets['POSTGRES_PORT'],
-    'db': secret_manager.secrets['POSTGRES_DB'],
-    'user': secret_manager.secrets['POSTGRES_USER'],
-    'password': secret_manager.secrets['POSTGRES_PASSWORD'],
+    'host': os.getenv('POSTGRES_HOST'),
+    'port': os.getenv('POSTGRES_PORT'),
+    'db': os.getenv('POSTGRES_DB'),
+    'user': os.getenv('POSTGRES_USER'),
+    'password': os.getenv('POSTGRES_PASSWORD'),
     'secured': True
 }
 
 #: Global Email settings (inbox creds, header and reporting)
 SCORING_EMAIL = {
-    'host': secret_manager.secrets['EMAIL_HOST'],
+    'host': os.getenv('EMAIL_HOST'),
     'reporting': {
-        'from': secret_manager.secrets['REPORTING_SENDER'],
-        'to': secret_manager.secrets['REPORTING_TARGET']
+        'from': os.getenv('REPORTING_SENDER'),
+        'to': os.getenv('REPORTING_TARGET')
     },
     'polling': {
-        'user': secret_manager.secrets['FBL_USER'],
-        'password': secret_manager.secrets['FBL_PASSWORD']
+        'user': os.getenv('FBL_USER'),
+        'password': os.getenv('FBL_PASSWORD')
     },
-    'partner_header': secret_manager.secrets['FBL_PARTNER_HEADER']
+    'partner_header': os.getenv('FBL_PARTNER_HEADER')
 }
 
 #: Flask configuration
