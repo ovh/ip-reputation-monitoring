@@ -5,6 +5,7 @@ CREATE TABLE spamhaus (
     sbl_number INTEGER PRIMARY KEY,
     first_seen TIMESTAMP NOT NULL DEFAULT statement_timestamp(),
     last_seen TIMESTAMP NOT NULL DEFAULT statement_timestamp(),
-    cidr CIDR NOT NULL
+    cidr CIDR NOT NULL,
+    cause TEXT
 );
 CREATE INDEX index_active ON spamhaus (active);

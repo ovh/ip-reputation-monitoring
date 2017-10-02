@@ -63,21 +63,23 @@ class Postgres(object):
             is no longer active, update them to set their attr `active` to false.
 
             :param list documents: List of dictionaries representing documents to upsert having at least
-            those mandatory keys: [sbl_number, cidr]
+            those mandatory keys: [sbl_number, cidr, first_seen, cause]
         """
         now = datetime.now()
 
         # First upsert still active entries
         for document in documents:
-            self._cursor.execute("INSERT INTO spamhaus (sbl_number, cidr) "
-                                 "VALUES (%(sbl_number)s, %(cidr)s) "
+            self._cursor.execute("INSERT INTO spamhaus (sbl_number, cidr, first_seen, cause) "
+                                 "VALUES (%(sbl_number)s, %(cidr)s, %(first_seen)s, %(cause)s) "
                                  "ON CONFLICT (sbl_number) DO UPDATE SET "
                                  "   last_seen = %(now)s,"
                                  "   active = TRUE",
                                  {
                                      "sbl_number": document['sbl_number'],
                                      "cidr": document['cidr'],
-                                     "now": now
+                                     "now": now,
+                                     "first_seen": document["first_seen"],
+                                     "cause": document["cause"]
                                  })
 
         # Now, set inactive all active documents that are not in documents

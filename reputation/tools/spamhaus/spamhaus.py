@@ -77,11 +77,14 @@ def parse_html(content):
         first_seen = row.find_all('td')[4].find_all('span')[0].text
         first_seen = datetime.strptime(first_seen, '%d-%b-%Y %H:%M GMT')
 
+        cause = row.find_all('td')[5].find_all('span')[0].text.strip()
+
         if all((sbl_number, first_seen, cidr)):
             result.append({
                 'sbl_number': sbl_number,
                 'first_seen': first_seen,
-                'cidr': cidr
+                'cidr': cidr,
+                'cause': cause
             })
 
     return result
