@@ -68,16 +68,16 @@ class Mongo(object):
         """
         self._client = pymongo.MongoClient(
             'mongodb://{}:{}@{}:{}/{}'.format(
-                settings.DB['user'],
-                settings.DB['password'],
-                settings.DB['host'],
-                settings.DB['port'],
-                settings.DB['db']
+                settings.MONGO_DB['user'],
+                settings.MONGO_DB['password'],
+                settings.MONGO_DB['host'],
+                settings.MONGO_DB['port'],
+                settings.MONGO_DB['db']
             ),
-            ssl=settings.DB['secured']
+            ssl=settings.MONGO_DB['secured']
         )
 
-        self._db = self._client[settings.DB['db']]
+        self._db = self._client[settings.MONGO_DB['db']]
         self._check_collections_exists()
 
         self._ip_collection = self._db[IP_COLLECTION]

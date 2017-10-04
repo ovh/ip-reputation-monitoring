@@ -38,7 +38,7 @@ LOGGER = {
 }
 
 #: DB settings
-DB = {
+MONGO_DB = {
     'host': os.getenv('MONGO_HOST'),
     'port': os.getenv('MONGO_PORT'),
     'db': os.getenv('MONGO_DB_NAME'),

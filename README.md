@@ -79,7 +79,8 @@ To setup this little tool, you'll need:
  shell scripts)
  * Python 2.7+
  * Packages `python-dev` and `python-pip`
- * A PostgreSQL database (2.6.x or greater with TLS support*)
+ * A MongoDB database (2.6.x or greater with TLS support*)
+ * A PostgreSQL database (9.2+ or greater)
  * A MX supporting IMAPS
  * A scheduler (cron, supervisor, ...)
 
