@@ -23,6 +23,7 @@ class TestSpamhaus(unittest.TestCase):
 
         expected_document = {
             'sbl_number': 284491,
+            'cause': "servicetob.net / 'alexandra besson' (sources)",
             'first_seen': datetime(2016, 1, 28, 23, 30),
             'cidr': '5.39.124.160/27'
         }
