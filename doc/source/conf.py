@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # ip-reputation-monitoring documentation build configuration file, created by
 # sphinx-quickstart on Wed Jan 13 16:16:10 2016.

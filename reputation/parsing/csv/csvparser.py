@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # pylint: disable=W0223
 #
 # Copyright (C) 2017, OVH SAS
