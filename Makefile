@@ -62,6 +62,7 @@ doc: clean-doc
 dist: clean doc
 	$(DEL) -f reputation/.coverage $(DIST_NAME)
 	$(TAR) --transform 's/^\./$(OUT_DIR)/' -cvzf $(DIST_NAME) \
+	                          ./deploy/ \
 							  ./reputation/ \
 							  ./doc/build/ \
 							  ./requirements/ \
@@ -72,4 +73,6 @@ dist: clean doc
 							  ./CHANGELOG.md \
 							  ./requirements.txt \
 							  ./setup.py \
-							  ./*.sh
+							  ./*.sh \
+							  ./Dockerfile \
+							  ./marathon.json
