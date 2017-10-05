@@ -61,8 +61,7 @@ class Postgres(object):
             Update or insert a spamhaus entry into the spamhaus table. For each entry that
             is no longer active, update them to set their attr `active` to false.
 
-            :param list documents: List of dictionaries representing documents to upsert having at least
-            those mandatory keys: [sbl_number, cidr, first_seen, cause]
+            :param list documents: List of dictionaries representing documents to upsert having at least those mandatory keys: [sbl_number, cidr, first_seen, cause]
         """
         now = datetime.now()
 

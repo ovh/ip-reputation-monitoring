@@ -1,4 +1,5 @@
 CD=cd
+MKDIR=mkdir
 FIND=find
 DEL=rm
 TAR=tar
@@ -57,6 +58,7 @@ docker-run: docker-build
 	./deploy/run.sh
 
 doc: clean-doc
+	$(mkdir) -p doc/source/_static
 	$(SPHINX) -b html doc/source doc/build
 
 dist: clean doc

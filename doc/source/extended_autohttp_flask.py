@@ -23,7 +23,7 @@ def get_routes(app, endpoint=None):
         methodrules = {}
         for rule in app.url_map.iter_rules(endpoint):
             methods = rule.methods.difference(['OPTIONS', 'HEAD'])
-            path = flask.translate_werkzeug_rule(rule.rule)
+            path = rule.rule
             for method in methods:
                 if method in methodrules:
                     methodrules[method].append(path)
@@ -86,7 +86,7 @@ class AutoExtendedflaskDirective(flask.AutoflaskDirective):
                     return True
         return False
 
-    def make_rst(self):
+    def make_rst(self, **kwargs):
         app = import_object(self.arguments[0])
         if self.endpoints:
             routes = itertools.chain(*[get_routes(app, endpoint)
@@ -135,6 +135,5 @@ class AutoExtendedflaskDirective(flask.AutoflaskDirective):
 
 
 def setup(app):
-    if 'http' not in app.domains:
-        httpdomain.setup(app)
+    httpdomain.setup(app)
     app.add_directive('autoextendedflask', AutoExtendedflaskDirective)

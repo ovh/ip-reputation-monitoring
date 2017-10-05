@@ -30,9 +30,15 @@ Factory
 .. automodule:: factory.factory
     :members:
 
-DB
+MongoDB
 ------------------
-.. automodule:: db.db
+.. automodule:: db.mongo
+    :members:
+
+
+PostgreSQL
+------------------
+.. automodule:: db.postgres
     :members:
 
 Parsing
