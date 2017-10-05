@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# The purpose of this script is to exit supervisord if one of the services don't start
+# This prevent the services from failing silently
 import os
 import signal
 
