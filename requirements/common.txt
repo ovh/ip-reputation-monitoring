@@ -1,8 +1,9 @@
-pymongo==3.5.1
-psycopg2==2.7.3.1
-netaddr==0.7.19
 beautifulsoup4==4.6.0
 flask==0.12.2
-sphinx==1.6.4
-sphinxcontrib-httpdomain==1.5.0
 hvac==0.2.17
+netaddr==0.7.19
+psycopg2==2.7.3.1
+pyasn==1.6.0b1
+pymongo==3.5.1
+sphinxcontrib-httpdomain==1.5.0
+sphinx==1.6.4

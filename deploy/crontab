@@ -1,4 +1,4 @@
 # m   h   dom  mon  dow  command
-*     4   *    *    *    cd /srv/ip-reputation/ && ./reputation-rbl.sh >> /var/log/reputation-rbl.log 2>&1
-*/30  *   *    *    *    cd /srv/ip-reputation/ && ./spamhaus-bl.sh    >> /var/log/spamhaus-bl.log 2>&1
-
+*     4   *    *    *    cd /srv/ip-reputation/        && ./reputation-rbl.sh  >> /var/log/reputation-rbl.log 2>&1
+*/30  *   *    *    *    cd /srv/ip-reputation/        && ./spamhaus-bl.sh     >> /var/log/spamhaus-bl.log    2>&1
+*     6   *    *    *    cd /srv/ip-reputation/config/ && ./fetch_ips.sh       >> /var/log/fetch_ips.log      2>&1
