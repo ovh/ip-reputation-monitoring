@@ -51,7 +51,7 @@ lint:
 	$(PYLINT) --disable=W0141 --max-line-length=150 adapters/ api/ archive/ config/ default/ factory/ main.py mongo/ parsing/ reporting/ run_api.py tests/ spamhaus_monitor.py  tools/ utils/
 
 docker-build:
-	$(DOCKER) build -t ip-reputation . -f deploy/Dockerfile
+	$(DOCKER) build -t ip-reputation .
 
 docker-run: docker-build
 	./deploy/run.sh
