@@ -76,5 +76,4 @@ dist: clean doc
 							  ./requirements.txt \
 							  ./setup.py \
 							  ./*.sh \
-							  ./Dockerfile \
-							  ./marathon.json
+							  ./Dockerfile
