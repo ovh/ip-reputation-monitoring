@@ -163,8 +163,8 @@ At last, you need add your network addresses CIDRs (only one per line) in the
 
 Inside the docker, the following scripts are running:
 
- * `reputation-rbl.sh` runs every 2 hours.
- * `spamhaus-bl.sh` runs every hour.
+ * `reputation-rbl.sh` runs every day.
+ * `spamhaus-bl.sh` runs every 30mins.
  * `reputation-fbl.sh` and `api.sh` run as a daemon (and constitute the stdout + stderr of the docker).
 
 To run the docker, first edit the `deploy/run.sh` then launch this command:
