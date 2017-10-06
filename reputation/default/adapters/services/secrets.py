@@ -40,7 +40,7 @@ class EnvironmentSecretService(secrets.SecretsServiceBase):
 
     def read(self, variable_name):
         """
-            Read an existing file.
+            Read a secret.
 
             :param str variable_name: Variable name to be read
             :return:  Content of the variable
