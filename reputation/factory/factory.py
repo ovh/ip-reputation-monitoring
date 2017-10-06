@@ -22,8 +22,12 @@
 
 import importlib
 import inspect
-from config import settings
-from utils.logger import LOGGER
+
+#: Tells the app which implementations to load
+CUSTOM_IMPLEMENTATIONS = (
+    "default.adapters.services.storage.FilesystemStorageService",
+    "default.adapters.services.secrets.EnvironmentSecretService",
+)
 
 
 class WrongImplementationException(Exception):
@@ -79,12 +83,12 @@ class ImplementationFactory(object):
             :raises ImplementationNotFoundException: No implementation match passed identifier
         """
         if string not in self._registered_instances:
-            self._registered_instances[string] = self.get_instance_of(self, string)
+            self._registered_instances[string] = self.get_instance_of(string)
 
         return self._registered_instances[string]
 
     def __read_custom_implementations(self):
-        for impl in settings.CUSTOM_IMPLEMENTATIONS:
+        for impl in CUSTOM_IMPLEMENTATIONS:
             class_object = self.__get_impl_adapter_from_string(impl)
             class_base = self.__get_base_adapter(class_object)
             # Ensure the implementation really implements provided interface
@@ -93,11 +97,13 @@ class ImplementationFactory(object):
 
             self.__register_impl(class_base, class_object)
 
-    def __get_impl_adapter_from_string(self, string):
+    @staticmethod
+    def __get_impl_adapter_from_string(string):
         module_name, cls_name = string.rsplit('.', 1)
         return getattr(importlib.import_module(module_name), cls_name)
 
-    def __get_base_adapter(self, class_obj):
+    @staticmethod
+    def __get_base_adapter(class_obj):
         ancestors = inspect.getmro(class_obj)
         for cls in ancestors:
             if cls.__module__.startswith("adapters"):
@@ -108,7 +114,7 @@ class ImplementationFactory(object):
     def __register_impl(self, base, class_obj):
         self._registered_implementations[base.__name__] = class_obj
 
-        LOGGER.debug("Custom implementation [%s] registered.", class_obj)
+        print("Custom implementation [{}] registered.".format(class_obj))
 
 
 # Before instantiate the singleton, check it has not already been done.

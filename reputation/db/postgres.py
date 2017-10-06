@@ -17,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """ Everything you need to deal with the databases is here. """
-import time
 from datetime import datetime
 
 import psycopg2

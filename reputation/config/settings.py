@@ -19,12 +19,16 @@
 """ Global solution settings """
 
 import logging
-import os
+import factory.factory
 
-#: Tells the app which implementations to load
-CUSTOM_IMPLEMENTATIONS = (
-    "default.adapters.services.storage.FilesystemStorageService",
-)
+
+def get_secret(secret_name):
+    with factory.factory.ImplementationFactory.instance.get_instance_of("SecretsServiceBase") as secrets:
+        try:
+            return secrets.read(secret_name)
+        except:
+            return None
+
 
 #: Network ip to be kept while parsing
 MANAGED_IPS_LIST = "./config/ips.list"
@@ -38,34 +42,34 @@ LOGGER = {
 
 #: DB settings
 MONGO_DB = {
-    'host': os.getenv('MONGO_HOST'),
-    'port': os.getenv('MONGO_PORT'),
-    'db': os.getenv('MONGO_DB'),
-    'user': os.getenv('MONGO_USER'),
-    'password': os.getenv('MONGO_PASSWORD'),
+    'host': get_secret('MONGO_HOST'),
+    'port': get_secret('MONGO_PORT'),
+    'db': get_secret('MONGO_DB'),
+    'user': get_secret('MONGO_USER'),
+    'password': get_secret('MONGO_PASSWORD'),
     'secured': True
 }
 SPAMHAUS_DB = {
-    'host': os.getenv('POSTGRES_HOST'),
-    'port': os.getenv('POSTGRES_PORT'),
-    'db': os.getenv('POSTGRES_DB'),
-    'user': os.getenv('POSTGRES_USER'),
-    'password': os.getenv('POSTGRES_PASSWORD'),
+    'host': get_secret('POSTGRES_HOST'),
+    'port': get_secret('POSTGRES_PORT'),
+    'db': get_secret('POSTGRES_DB'),
+    'user': get_secret('POSTGRES_USER'),
+    'password': get_secret('POSTGRES_PASSWORD'),
     'secured': True
 }
 
 #: Global Email settings (inbox creds, header and reporting)
 SCORING_EMAIL = {
-    'host': os.getenv('EMAIL_HOST'),
+    'host': get_secret('EMAIL_HOST'),
     'reporting': {
-        'from': os.getenv('REPORTING_SENDER'),
-        'to': os.getenv('REPORTING_TARGET')
+        'from': get_secret('REPORTING_SENDER'),
+        'to': get_secret('REPORTING_TARGET')
     },
     'polling': {
-        'user': os.getenv('FBL_USER'),
-        'password': os.getenv('FBL_PASSWORD')
+        'user': get_secret('FBL_USER'),
+        'password': get_secret('FBL_PASSWORD')
     },
-    'partner_header': os.getenv('FBL_PARTNER_HEADER')
+    'partner_header': get_secret('FBL_PARTNER_HEADER')
 }
 
 #: Flask configuration
