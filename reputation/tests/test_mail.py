@@ -33,6 +33,7 @@ class TestMail(unittest.TestCase):
             with open(MAILS[k]) as fdesc:
                 content[k] = fdesc.read()
 
+        settings.SCORING_EMAIL['partner_header'] = "Really-random-header"
         self._aolParser = DummyMailParser(
             content['aol_recent']
             .format(settings.SCORING_EMAIL['partner_header'], datetime.now().strftime("%a, %d %b %Y %H:%M:%S %Z"))
