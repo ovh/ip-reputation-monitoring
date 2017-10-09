@@ -23,7 +23,7 @@ CURRENT_DIR=`dirname \`readlink -f $0\``
 REPUTATION_DIR="${CURRENT_DIR}/reputation"
 
 SPAMHAUS_SCRIPT="${REPUTATION_DIR}/spamhaus_monitor.py"
-
+SPAMHAUS_DOMAIN_NAME=$(${REPUTATION_DIR}/get_secret.py SPAMHAUS_DOMAIN_NAME)
 
 # Get SBL listings for domain and let python script parse content
 curl --location --silent "http://www.spamhaus.org/sbl/listings/${SPAMHAUS_DOMAIN_NAME}" |  python3 ${SPAMHAUS_SCRIPT}

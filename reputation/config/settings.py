@@ -23,11 +23,11 @@ import factory.factory
 
 
 def get_secret(secret_name):
-    with factory.factory.ImplementationFactory.instance.get_instance_of("SecretsServiceBase") as secrets:
+    with factory.factory.ImplementationFactory.instance.get_singleton_of("SecretsServiceBase") as secrets:
         try:
             return secrets.read(secret_name)
         except:
-            return None
+            return ""
 
 
 #: Network ip to be kept while parsing
