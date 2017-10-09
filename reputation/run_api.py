@@ -35,6 +35,8 @@ def create_app():
     app.register_blueprint(blacklist_blueprint, url_prefix='/blacklist')
     from api.controllers.spamhaus import spamhaus as spamhaus_blueprint
     app.register_blueprint(spamhaus_blueprint, url_prefix='/spamhaus')
+    from api.controllers.handled_ips import ips as ips_blueprint
+    app.register_blueprint(ips_blueprint, url_prefix='/ips_handled')
 
     if not settings.API['debug']:
         @app.errorhandler(500)

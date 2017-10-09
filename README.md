@@ -165,6 +165,7 @@ Inside the docker, the following scripts are running:
 
  * `reputation-rbl.sh` runs every day.
  * `spamhaus-bl.sh` runs every 30mins.
+ * `reputation/config/fetch_ips.sh` runs every day. 
  * `reputation-fbl.sh` and `api.sh` run as a daemon (and constitute the stdout + stderr of the docker).
 
 To run the docker, first edit the `deploy/run.sh` then launch this command:
@@ -194,6 +195,7 @@ Here are the few available endpoints:
  or not.
  * `GET /spamhaus/active`: Query recorded Spamhaus active issues.
  * `GET /spamhaus/resolved`: Query recorded Spamhaus resolved issues.
+ * `GET /ips_handled/`: List all the IPs handled by the AS, the IPs are fetched using the script in: `reputation/config/fetch_ips.sh`
 
 
 Enjoy
