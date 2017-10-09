@@ -2,11 +2,13 @@ FROM alpine:latest
 
 RUN apk add --update bash py-pip python3-dev postgresql-dev gcc musl-dev supervisor curl openssl ca-certificates wget
 RUN update-ca-certificates
-
 RUN mkdir -p /srv/ip-reputation
-ADD . /srv/ip-reputation
 WORKDIR /srv/ip-reputation
+
+ADD requirements/ requirements/
+ADD requirements.txt .
 RUN pip3 install -r requirements.txt && pip install supervisor
+ADD . .
 
 RUN mkdir -p /var/log && \
     touch /var/log/reputation-rbl.log /var/log/spamhaus-bl.log /var/log/fetch_ips.log && \
