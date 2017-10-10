@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 #
 # Copyright (C) 2017, OVH SAS
 #
@@ -17,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import factory.factory
-import sys
 
 
 def get_secret(secret_name):
@@ -59,9 +57,3 @@ SCORING_EMAIL = {
     },
     'partner_header': get_secret('FBL_PARTNER_HEADER')
 }
-
-if __name__ == "__main__":
-    secret = get_secret(sys.argv[1])
-    if not secret:
-        print("{} is empty: '{}'".format(sys.argv[1], secret), file=sys.stderr)
-    print(secret)

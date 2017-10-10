@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env python3
 #
 # Copyright (C) 2017, OVH SAS
 #
@@ -16,14 +16,11 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import sys
+from config import secrets
 
-
-# Directories computation
-CURRENT_DIR=`dirname \`readlink -f $0\``
-REPUTATION_DIR="${CURRENT_DIR}/reputation"
-
-SPAMHAUS_SCRIPT="${REPUTATION_DIR}/spamhaus_monitor.py"
-SPAMHAUS_DOMAIN_NAME=$(${REPUTATION_DIR}/get_secret.py SPAMHAUS_DOMAIN_NAME)
-
-# Get SBL listings for domain and let python script parse content
-curl --location --silent "http://www.spamhaus.org/sbl/listings/${SPAMHAUS_DOMAIN_NAME}" |  python3 ${SPAMHAUS_SCRIPT}
+if __name__ == "__main__":
+    secret = secrets.get_secret(sys.argv[1])
+    if not secret:
+        print("{} is empty: '{}'".format(sys.argv[1], secret), file=sys.stderr)
+    print(secret)
