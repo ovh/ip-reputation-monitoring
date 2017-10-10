@@ -5,10 +5,15 @@ RUN update-ca-certificates
 RUN mkdir -p /srv/ip-reputation
 WORKDIR /srv/ip-reputation
 
+# We first add the requirements, so that we can install the python dependencies
+# This way, we use the docker layers more efficiently
 ADD requirements/ requirements/
 ADD requirements.txt .
+
+# Then we download the python requirements
 RUN pip3 install -r requirements.txt && pip install supervisor
-ADD . .
+# And finally, we add the application source code
+ADD . /srv/ip-reputation
 
 RUN mkdir -p /var/log && \
     touch /var/log/reputation-rbl.log /var/log/spamhaus-bl.log /var/log/fetch_ips.log && \
