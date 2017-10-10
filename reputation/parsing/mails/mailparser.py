@@ -24,7 +24,7 @@
 import base64
 import imaplib
 import time
-from config import settings
+from config import secrets
 from parsing.mails.mailfactory import MailReaderFactory
 from parsing.parser import Parser
 from utils.logger import LOGGER
@@ -41,8 +41,8 @@ class MailParser(Parser):
         """
         Parser.__init__(self)
 
-        self._imap = imaplib.IMAP4_SSL(settings.SCORING_EMAIL['host'])
-        self._imap.login(settings.SCORING_EMAIL['polling']['user'], settings.SCORING_EMAIL['polling']['password'])
+        self._imap = imaplib.IMAP4_SSL(secrets.SCORING_EMAIL['host'])
+        self._imap.login(secrets.SCORING_EMAIL['polling']['user'], secrets.SCORING_EMAIL['polling']['password'])
         self._imap.select('INBOX')
 
         self._failed_uids = []

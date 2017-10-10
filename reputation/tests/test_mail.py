@@ -6,7 +6,7 @@
 import time
 import unittest
 from datetime import datetime
-from config import settings
+from config import secrets
 from parsing.mails.mailfactory import MailReaderFactory
 from parsing.mails.mailparser import MailParser
 
@@ -33,15 +33,15 @@ class TestMail(unittest.TestCase):
             with open(MAILS[k]) as fdesc:
                 content[k] = fdesc.read()
 
-        settings.SCORING_EMAIL['partner_header'] = "Really-random-header"
+        secrets.SCORING_EMAIL['partner_header'] = "Really-random-header"
         self._aolParser = DummyMailParser(
             content['aol_recent']
-            .format(settings.SCORING_EMAIL['partner_header'], datetime.now().strftime("%a, %d %b %Y %H:%M:%S %Z"))
+            .format(secrets.SCORING_EMAIL['partner_header'], datetime.now().strftime("%a, %d %b %Y %H:%M:%S %Z"))
         )
-        self._aolParser2 = DummyMailParser(content['aol_old'].format(settings.SCORING_EMAIL['partner_header']))
-        self._ssmParser = DummyMailParser(content['signal_spam'].format(settings.SCORING_EMAIL['partner_header']))
-        self._scopParser = DummyMailParser(content['scop1'].format(settings.SCORING_EMAIL['partner_header']))
-        self._scopParser2 = DummyMailParser(content['scop2'].format(settings.SCORING_EMAIL['partner_header']))
+        self._aolParser2 = DummyMailParser(content['aol_old'].format(secrets.SCORING_EMAIL['partner_header']))
+        self._ssmParser = DummyMailParser(content['signal_spam'].format(secrets.SCORING_EMAIL['partner_header']))
+        self._scopParser = DummyMailParser(content['scop1'].format(secrets.SCORING_EMAIL['partner_header']))
+        self._scopParser2 = DummyMailParser(content['scop2'].format(secrets.SCORING_EMAIL['partner_header']))
 
     def test_factory_fail(self):
         self.assertRaises(Exception, DummyMailParser, 'Ceci est un mail')

@@ -25,7 +25,7 @@ import ssl
 
 import pymongo
 from bson.code import Code
-from config import settings
+from config import secrets
 from utils import utils
 from utils.logger import LOGGER
 
@@ -68,17 +68,17 @@ class Mongo(object):
         """
         self._client = pymongo.MongoClient(
             'mongodb://{}:{}@{}:{}/{}'.format(
-                settings.MONGO_DB['user'],
-                settings.MONGO_DB['password'],
-                settings.MONGO_DB['host'],
-                settings.MONGO_DB['port'],
-                settings.MONGO_DB['db']
+                secrets.MONGO_DB['user'],
+                secrets.MONGO_DB['password'],
+                secrets.MONGO_DB['host'],
+                secrets.MONGO_DB['port'],
+                secrets.MONGO_DB['db']
             ),
-            ssl=settings.MONGO_DB['secured'],
+            ssl=secrets.MONGO_DB['secured'],
             ssl_cert_reqs=ssl.CERT_NONE
         )
 
-        self._db = self._client[settings.MONGO_DB['db']]
+        self._db = self._client[secrets.MONGO_DB['db']]
         self._check_collections_exists()
 
         self._ip_collection = self._db[IP_COLLECTION]

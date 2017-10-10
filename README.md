@@ -76,11 +76,9 @@ If you think you don't need all the different ways to monitor your IPs (RBL, FBL
 To setup this little tool, you'll need:
 
  * Docker
- * A PostgreSQL database (9.2+ or greater or greater with TLS support*)
- * A Mongo database (2.6.x or greater with TLS support*)
+ * A PostgreSQL database (9.2+ or greater or greater with TLS support)
+ * A Mongo database (2.6.x or greater with TLS support)
  * A MX supporting IMAPS
-
-*TLS support can be disabled by editing `settings/config.py`.
 
 ### Step by step ###
 
@@ -204,21 +202,21 @@ Enjoy
 
 ### Implementing its own RBL storage class ###
 
-As you can see in the `factory.factory.py`, there is a way to customize the tool by
+As you can see in `config/settings.py`, there is a way to customize the tool by
 providing its own implementation to store RBL parsed documents.
 
 By default, a basic implementation is provided and store everything on
-the filesystem, using the property `RBL_STORAGE_CONTEXT` in the `config/settings.py`
+the filesystem, using the property `RBL_STORAGE_CONTEXT` in `config/settings.py`
 to determine the root path to use.
 
 You can code your own RBL storage service by implementing
 `adapters.service.storage.StorageServiceBase` and then, tell the tool to
 use this implementation by editing the property `CUSTOM_IMPLEMENTATIONS`
-in `factory/factory.py`.
+in `config/settings.py`.
 
 ### Implementing its own secrets provider ###
 
-As you can see in the `factory.factory.py`, there is a way to customize the tool by
+As you can see in `config/settings.py`, there is a way to customize the tool by
 providing its own implementation to load the application secrets.
 
 By default, a basic implementation is provided and loads everything
@@ -227,7 +225,7 @@ from the environment variables.
 You can code your service to fetch your secrets by implementing
 `adapters.service.secrets.SecretsServiceBase` and then, tell the tool to
 use this implementation by editing the property `CUSTOM_IMPLEMENTATIONS`
-in `factory/factory.py`.
+in `config/settings.py`.
 
 ### Implementing new parsers ###
 

@@ -21,7 +21,7 @@ from datetime import datetime
 
 import psycopg2
 from psycopg2 import extras
-from config import settings
+from config import secrets
 
 
 class Postgres(object):
@@ -42,12 +42,12 @@ class Postgres(object):
         """
             Open connection to PostgreSQL
         """
-        ssl = 'require' if settings.SPAMHAUS_DB['secured'] else None
-        self._connection = psycopg2.connect(database=settings.SPAMHAUS_DB['db'],
-                                            user=settings.SPAMHAUS_DB['user'],
-                                            password=settings.SPAMHAUS_DB['password'],
-                                            host=settings.SPAMHAUS_DB['host'],
-                                            port=settings.SPAMHAUS_DB['port'],
+        ssl = 'require' if secrets.SPAMHAUS_DB['secured'] else None
+        self._connection = psycopg2.connect(database=secrets.SPAMHAUS_DB['db'],
+                                            user=secrets.SPAMHAUS_DB['user'],
+                                            password=secrets.SPAMHAUS_DB['password'],
+                                            host=secrets.SPAMHAUS_DB['host'],
+                                            port=secrets.SPAMHAUS_DB['port'],
                                             sslmode=ssl)
         self._cursor = self._connection.cursor(cursor_factory=extras.DictCursor)
 

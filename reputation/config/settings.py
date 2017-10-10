@@ -16,60 +16,26 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-""" Global solution settings """
+""" Customizable settings """
 
 import logging
-import factory.factory
 
-
-def get_secret(secret_name):
-    with factory.factory.ImplementationFactory.instance.get_singleton_of("SecretsServiceBase") as secrets:
-        try:
-            return secrets.read(secret_name)
-        except:
-            return ""
-
+#: Tells the app which implementations to load
+CUSTOM_IMPLEMENTATIONS = (
+    "default.adapters.services.storage.FilesystemStorageService",
+    "default.adapters.services.secrets.EnvironmentSecretService",
+)
 
 #: Network ip to be kept while parsing
 MANAGED_IPS_LIST = "./config/ips.list"
-#: RBL storage context which pass the context to the :py:class:`adapters.services.storage.StorageServiceBase` implementation.
+
+#: RBL storage context which pass the context to the
+# :py:class:`adapters.services.storage.StorageServiceBase` implementation.
 RBL_STORAGE_CONTEXT = 'rbl_archives'
 
 LOGGER = {
     'name': 'reputation',
     'level': logging.INFO,
-}
-
-#: DB settings
-MONGO_DB = {
-    'host': get_secret('MONGO_HOST'),
-    'port': get_secret('MONGO_PORT'),
-    'db': get_secret('MONGO_DB'),
-    'user': get_secret('MONGO_USER'),
-    'password': get_secret('MONGO_PASSWORD'),
-    'secured': True
-}
-SPAMHAUS_DB = {
-    'host': get_secret('POSTGRES_HOST'),
-    'port': get_secret('POSTGRES_PORT'),
-    'db': get_secret('POSTGRES_DB'),
-    'user': get_secret('POSTGRES_USER'),
-    'password': get_secret('POSTGRES_PASSWORD'),
-    'secured': True
-}
-
-#: Global Email settings (inbox creds, header and reporting)
-SCORING_EMAIL = {
-    'host': get_secret('EMAIL_HOST'),
-    'reporting': {
-        'from': get_secret('REPORTING_SENDER'),
-        'to': get_secret('REPORTING_TARGET')
-    },
-    'polling': {
-        'user': get_secret('FBL_USER'),
-        'password': get_secret('FBL_PASSWORD')
-    },
-    'partner_header': get_secret('FBL_PARTNER_HEADER')
 }
 
 #: Flask configuration

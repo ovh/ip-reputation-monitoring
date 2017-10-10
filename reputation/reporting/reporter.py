@@ -20,7 +20,7 @@
 
 import smtplib
 from email.mime.text import MIMEText
-from config import settings
+from config import secrets
 from db import mongo
 from utils import utils
 from utils.logger import LOGGER
@@ -62,10 +62,10 @@ class Reporter(object):
             msg = MIMEText(body)
 
             msg['Subject'] = subject
-            msg['From'] = settings.SCORING_EMAIL['reporting']['from']
-            msg['To'] = settings.SCORING_EMAIL['reporting']['to']
+            msg['From'] = secrets.SCORING_EMAIL['reporting']['from']
+            msg['To'] = secrets.SCORING_EMAIL['reporting']['to']
 
-            smtp = smtplib.SMTP_SSL(settings.SCORING_EMAIL['host'])
+            smtp = smtplib.SMTP_SSL(secrets.SCORING_EMAIL['host'])
             smtp.sendmail(msg['From'], msg['To'], msg.as_string())
             smtp.quit()
         except Exception as ex:

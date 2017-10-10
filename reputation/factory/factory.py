@@ -22,12 +22,7 @@
 
 import importlib
 import inspect
-
-#: Tells the app which implementations to load
-CUSTOM_IMPLEMENTATIONS = (
-    "default.adapters.services.storage.FilesystemStorageService",
-    "default.adapters.services.secrets.EnvironmentSecretService",
-)
+from config import settings
 
 
 class WrongImplementationException(Exception):
@@ -88,7 +83,7 @@ class ImplementationFactory(object):
         return self._registered_instances[string]
 
     def __read_custom_implementations(self):
-        for impl in CUSTOM_IMPLEMENTATIONS:
+        for impl in settings.CUSTOM_IMPLEMENTATIONS:
             class_object = self.__get_impl_adapter_from_string(impl)
             class_base = self.__get_base_adapter(class_object)
             # Ensure the implementation really implements provided interface

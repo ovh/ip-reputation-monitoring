@@ -22,7 +22,7 @@
 """
 
 import re
-from config import settings
+from config import secrets
 from parsing.mails import arf, spamcop
 from utils.logger import LOGGER
 
@@ -45,9 +45,9 @@ class MailReaderFactory(object):
             :rtype: Object
             :return: An instance of :py:class:`parsing.mails.mailreader.AbstractMailReader`
         """
-        match = re.search(r'{}:\s(.*)'.format(settings.SCORING_EMAIL['partner_header']), raw)
+        match = re.search(r'{}:\s(.*)'.format(secrets.SCORING_EMAIL['partner_header']), raw)
         if not match:
-            raise Exception('Malformed input mail :: missing header [{}]'.format(settings.SCORING_EMAIL['partner_header']))
+            raise Exception('Malformed input mail :: missing header [{}]'.format(secrets.SCORING_EMAIL['partner_header']))
 
         source = match.group(1).strip()
 
@@ -58,5 +58,5 @@ class MailReaderFactory(object):
             return spamcop.SpamcopReader(raw)
 
         raise Exception(
-            'Malformed input mail :: unknown value [{}] for header [{}]'.format(source, settings.SCORING_EMAIL['partner_header'])
+            'Malformed input mail :: unknown value [{}] for header [{}]'.format(source, secrets.SCORING_EMAIL['partner_header'])
         )
