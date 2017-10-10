@@ -21,5 +21,5 @@ RUN adduser -D -H ip-reputation
 RUN chown ip-reputation /srv/ip-reputation -R && chown ip-reputation /var/log/*.log 
 
 CMD crond && \ 
-    { supervisord -c /etc/supervisor.conf & \
-      tail -f /var/log/*.log ; }
+    { tail -f /var/log/*.log & \
+      supervisord -c /etc/supervisor.conf ; }
