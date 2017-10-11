@@ -23,6 +23,7 @@
 import importlib
 import inspect
 from config import settings
+from utils.logger import LOGGER
 
 
 class WrongImplementationException(Exception):
@@ -108,6 +109,8 @@ class ImplementationFactory(object):
 
     def __register_impl(self, base, class_obj):
         self._registered_implementations[base.__name__] = class_obj
+
+        LOGGER.debug("Custom implementation [%s] registered.", class_obj)
 
 
 # Before instantiate the singleton, check it has not already been done.
