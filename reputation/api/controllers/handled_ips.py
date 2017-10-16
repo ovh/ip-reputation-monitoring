@@ -41,6 +41,9 @@ def get_handled_ips():
         return {"error": "Couldn't find handled IPs in the server side"}, 500
 
     ips = ips.split('\n')
-    ips.remove('')
+    try:
+        ips.remove('')
+    except ValueError:
+        pass
 
     return ips, 200
