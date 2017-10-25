@@ -200,7 +200,7 @@ class Mongo(object):
             :return: A dictionary ready to be pushed into the file collection
         """
         current_ts = int(time.time() * 100)
-        raw_hash = hashlib.sha256(input_dict['raw']).hexdigest()
+        raw_hash = hashlib.sha256(input_dict['raw'].encode()).hexdigest()
         rnd_val = random.randint(10000, 99999)
 
         filename = '{}-{}-{}'.format(current_ts, raw_hash, rnd_val)
