@@ -1,12 +1,14 @@
 #!/bin/bash
 
+CURRENT_DIR=`dirname \`readlink -f $0\``
+REPUTATION_DIR="${CURRENT_DIR}/.."
+AS_NUMBER=$(${REPUTATION_DIR}/get_secret.py AS_NUMBER)
+
 if [ -z "${AS_NUMBER}" ]
 then
     >&2 echo "No AS_NUMBER varenv defined. Please define it to be able to build your IPs list."
     exit 1
 fi
-
-CURRENT_DIR=`dirname \`readlink -f $0\``
 
 pyasn_util_download.py --latest
 pyasn_util_convert.py --single rib.*.bz2 ipasn.dat

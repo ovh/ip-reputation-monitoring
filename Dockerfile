@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add --update bash py-pip python3-dev postgresql-dev gcc musl-dev supervisor curl openssl ca-certificates wget
+RUN apk add --update grep bash py-pip python3-dev postgresql-dev gcc musl-dev supervisor curl openssl ca-certificates wget
 RUN update-ca-certificates
 RUN mkdir -p /srv/ip-reputation
 WORKDIR /srv/ip-reputation
