@@ -10,7 +10,9 @@ then
     exit 1
 fi
 
-pyasn_util_download.py --latest
+directory=$(date -u +"%Y.%m")
+to_download=$(curl http://archive.routeviews.org/bgpdata/${directory}/RIBS/ | tail -n4 | head -n1 | grep -Po '</td><td><a href="\K(.*)(?=">rib)')
+wget http://archive.routeviews.org/bgpdata/${directory}/RIBS/${to_download}
 pyasn_util_convert.py --single rib.*.bz2 ipasn.dat
 
 # the content of ipasn.dat will be something like:
