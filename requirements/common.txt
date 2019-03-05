@@ -1,6 +1,6 @@
 pymongo==2.7.2
 netaddr==0.7.18
 beautifulsoup4==4.3.2
-flask==0.10.1
+flask==0.12.3
 sphinx==1.3.3
 sphinxcontrib-httpdomain==1.4.0
